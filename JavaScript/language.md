@@ -233,7 +233,7 @@
 
 **[⬆ back to top](#language-guide)**
 
-## Arrays
+## 数组
 
   <a name="arrays--literals"></a><a name="4.1"></a>
   - [4.1](#arrays--literals) 使用字面量语法创建数组。 eslint: [`no-array-constructor`](https://eslint.org/docs/rules/no-array-constructor.html)
@@ -870,12 +870,10 @@
 
     **[⬆ back to top](#table-of-contents)**
 
-## Classes & Constructors
+## 类 & 构造函数
 
   <a name="constructors--use-class"></a><a name="9.1"></a>
-  - [9.1](#constructors--use-class) Always use `class`. Avoid manipulating `prototype` directly.
-
-    > Why? `class` syntax is more concise and easier to reason about.
+  - [9.1](#constructors--use-class) 使用 `class`，避免直接操作 `prototype` 。
 
     ```javascript
     // bad
@@ -902,9 +900,7 @@
     ```
 
   <a name="constructors--extends"></a><a name="9.2"></a>
-  - [9.2](#constructors--extends) Use `extends` for inheritance.
-
-    > Why? It is a built-in way to inherit prototype functionality without breaking `instanceof`.
+  - [9.2](#constructors--extends) 使用 `extends` 用于继承。
 
     ```javascript
     // bad
@@ -925,64 +921,8 @@
     }
     ```
 
-  <a name="constructors--chaining"></a><a name="9.3"></a>
-  - [9.3](#constructors--chaining) Methods can return `this` to help with method chaining.
-
-    ```javascript
-    // bad
-    Jedi.prototype.jump = function () {
-      this.jumping = true;
-      return true;
-    };
-
-    Jedi.prototype.setHeight = function (height) {
-      this.height = height;
-    };
-
-    const luke = new Jedi();
-    luke.jump(); // => true
-    luke.setHeight(20); // => undefined
-
-    // good
-    class Jedi {
-      jump() {
-        this.jumping = true;
-        return this;
-      }
-
-      setHeight(height) {
-        this.height = height;
-        return this;
-      }
-    }
-
-    const luke = new Jedi();
-
-    luke.jump()
-      .setHeight(20);
-    ```
-
-  <a name="constructors--tostring"></a><a name="9.4"></a>
-  - [9.4](#constructors--tostring) It’s okay to write a custom `toString()` method, just make sure it works successfully and causes no side effects.
-
-    ```javascript
-    class Jedi {
-      constructor(options = {}) {
-        this.name = options.name || 'no name';
-      }
-
-      getName() {
-        return this.name;
-      }
-
-      toString() {
-        return `Jedi - ${this.getName()}`;
-      }
-    }
-    ```
-
-  <a name="constructors--no-useless"></a><a name="9.5"></a>
-  - [9.5](#constructors--no-useless) Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary. eslint: [`no-useless-constructor`](https://eslint.org/docs/rules/no-useless-constructor)
+  <a name="constructors--no-useless"></a><a name="9.3"></a>
+  - [9.3](#constructors--no-useless) 如果未指定，类有默认的构造函数，所以一个空的构造函数或者仅仅代表父级的构造函数是没有必要的。 eslint: [`no-useless-constructor`](https://eslint.org/docs/rules/no-useless-constructor)
 
     ```javascript
     // bad
@@ -1010,56 +950,29 @@
     }
     ```
 
-  <a name="classes--no-duplicate-members"></a>
-  - [9.6](#classes--no-duplicate-members) Avoid duplicate class members. eslint: [`no-dupe-class-members`](https://eslint.org/docs/rules/no-dupe-class-members)
-
-    > Why? Duplicate class member declarations will silently prefer the last one - having duplicates is almost certainly a bug.
-
-    ```javascript
-    // bad
-    class Foo {
-      bar() { return 1; }
-      bar() { return 2; }
-    }
-
-    // good
-    class Foo {
-      bar() { return 1; }
-    }
-
-    // good
-    class Foo {
-      bar() { return 2; }
-    }
-    ```
-
 **[⬆ back to top](#table-of-contents)**
 
-## Modules
+## 模块
 
   <a name="modules--use-them"></a><a name="10.1"></a>
-  - [10.1](#modules--use-them) Always use modules (`import`/`export`) over a non-standard module system. You can always transpile to your preferred module system.
-
-    > Why? Modules are the future, let’s start using the future now.
+  - [10.1](#modules--use-them) 使用ES6标准模块语法 (`import`/`export`)  而不是非标准的模块系统，你可以随时转换到你喜欢的模块系统。
 
     ```javascript
     // bad
     const AirbnbStyleGuide = require('./AirbnbStyleGuide');
     module.exports = AirbnbStyleGuide.es6;
-
+    
     // ok
     import AirbnbStyleGuide from './AirbnbStyleGuide';
     export default AirbnbStyleGuide.es6;
-
+    
     // best
     import { es6 } from './AirbnbStyleGuide';
     export default es6;
     ```
 
   <a name="modules--no-wildcard"></a><a name="10.2"></a>
-  - [10.2](#modules--no-wildcard) Do not use wildcard imports.
-
-    > Why? This makes sure you have a single default export.
+  - [10.2](#modules--no-wildcard) 不要使用通配符引入。
 
     ```javascript
     // bad
@@ -1069,47 +982,9 @@
     import AirbnbStyleGuide from './AirbnbStyleGuide';
     ```
 
-  <a name="modules--no-export-from-import"></a><a name="10.3"></a>
-  - [10.3](#modules--no-export-from-import) And do not export directly from an import.
-
-    > Why? Although the one-liner is concise, having one clear way to import and one clear way to export makes things consistent.
-
-    ```javascript
-    // bad
-    // filename es6.js
-    export { es6 as default } from './AirbnbStyleGuide';
-
-    // good
-    // filename es6.js
-    import { es6 } from './AirbnbStyleGuide';
-    export default es6;
-    ```
-
-  <a name="modules--no-duplicate-imports"></a>
-  - [10.4](#modules--no-duplicate-imports) Only import from a path in one place.
- eslint: [`no-duplicate-imports`](https://eslint.org/docs/rules/no-duplicate-imports)
-    > Why? Having multiple lines that import from the same path can make code harder to maintain.
-
-    ```javascript
-    // bad
-    import foo from 'foo';
-    // … some other imports … //
-    import { named1, named2 } from 'foo';
-
-    // good
-    import foo, { named1, named2 } from 'foo';
-
-    // good
-    import foo, {
-      named1,
-      named2,
-    } from 'foo';
-    ```
-
   <a name="modules--no-mutable-exports"></a>
-  - [10.5](#modules--no-mutable-exports) Do not export mutable bindings.
+  - [10.3](#modules--no-mutable-exports) 不要导出可变的元素。
  eslint: [`import/no-mutable-exports`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-mutable-exports.md)
-    > Why? Mutation should be avoided in general, but in particular when exporting mutable bindings. While this technique may be needed for some special cases, in general, only constant references should be exported.
 
     ```javascript
     // bad
@@ -1122,7 +997,7 @@
     ```
 
   <a name="modules--prefer-default-export"></a>
-  - [10.6](#modules--prefer-default-export) In modules with a single export, prefer default export over named export.
+  - [10.4](#modules--prefer-default-export) 在单一导出的模块中，使用 `default export` 比命名导出更好。
  eslint: [`import/prefer-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md)
     > Why? To encourage more files that only ever export one thing, which is better for readability and maintainability.
 
@@ -1135,9 +1010,8 @@
     ```
 
   <a name="modules--imports-first"></a>
-  - [10.7](#modules--imports-first) Put all `import`s above non-import statements.
+  - [10.5](#modules--imports-first) 将所有 `import` 置于其它语句之前。
  eslint: [`import/first`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md)
-    > Why? Since `import`s are hoisted, keeping them all at the top prevents surprising behavior.
 
     ```javascript
     // bad
@@ -1154,9 +1028,7 @@
     ```
 
   <a name="modules--multiline-imports-over-newlines"></a>
-  - [10.8](#modules--multiline-imports-over-newlines) Multiline imports should be indented just like multiline array and object literals.
-
-    > Why? The curly braces follow the same indentation rules as every other curly brace block in the style guide, as do the trailing commas.
+  - [10.6](#modules--multiline-imports-over-newlines) 多个引入应该像多元素数组和对象字面量一样缩进。
 
     ```javascript
     // bad
@@ -1172,31 +1044,17 @@
     } from 'path';
     ```
 
-  <a name="modules--no-webpack-loader-syntax"></a>
-  - [10.9](#modules--no-webpack-loader-syntax) Disallow Webpack loader syntax in module import statements.
- eslint: [`import/no-webpack-loader-syntax`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-webpack-loader-syntax.md)
-    > Why? Since using Webpack syntax in the imports couples the code to a module bundler. Prefer using the loader syntax in `webpack.config.js`.
-
-    ```javascript
-    // bad
-    import fooSass from 'css!sass!foo.scss';
-    import barCss from 'style!css!bar.css';
-
-    // good
-    import fooSass from 'foo.scss';
-    import barCss from 'bar.css';
-    ```
 
 **[⬆ back to top](#table-of-contents)**
 
 ## Iterators and Generators
 
   <a name="iterators--nope"></a><a name="11.1"></a>
-  - [11.1](#iterators--nope) Don’t use iterators. Prefer JavaScript’s higher-order functions instead of loops like `for-in` or `for-of`. eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
+  - [11.1](#iterators--nope) 不要使用遍历器。使用JavaScript的高级函数而非 `for-in` 和 `for-of`等循环。 eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
 
-    > Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.
+    > Why? 这强化了不可变的原则， 有返回值的纯函数必有副作用的更易于处理。
 
-    > Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... to iterate over arrays, and `Object.keys()` / `Object.values()` / `Object.entries()` to produce arrays so you can iterate over objects.
+    > 使用 `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... 遍历数组, 使用 `Object.keys()` / `Object.values()` / `Object.entries()` 获得数组以遍历对象。
 
     ```javascript
     const numbers = [1, 2, 3, 4, 5];
@@ -1235,15 +1093,10 @@
     const increasedByOne = numbers.map(num => num + 1);
     ```
 
-  <a name="generators--nope"></a><a name="11.2"></a>
-  - [11.2](#generators--nope) Don’t use generators for now.
-
-    > Why? They don’t transpile well to ES5.
-
   <a name="generators--spacing"></a>
-  - [11.3](#generators--spacing) If you must use generators, or if you disregard [our advice](#generators--nope), make sure their function signature is spaced properly. eslint: [`generator-star-spacing`](https://eslint.org/docs/rules/generator-star-spacing)
+  - [11.2](#generators--spacing) 如果必须使用 `generators` ，那么一定要确保其函数签名被恰当地空格。 eslint: [`generator-star-spacing`](https://eslint.org/docs/rules/generator-star-spacing)
 
-    > Why? `function` and `*` are part of the same conceptual keyword - `*` is not a modifier for `function`, `function*` is a unique construct, different from `function`.
+    > Why? `function` 和 `*` 都是同一个概念词的一部分， `*` 并不是 `function` 的修饰符, `function*` 是一个区别于 `function` 的独一无二的结构。
 
     ```javascript
     // bad
@@ -1303,10 +1156,10 @@
 
 **[⬆ back to top](#table-of-contents)**
 
-## Properties
+## 对象属性
 
   <a name="properties--dot"></a><a name="12.1"></a>
-  - [12.1](#properties--dot) Use dot notation when accessing properties. eslint: [`dot-notation`](https://eslint.org/docs/rules/dot-notation.html)
+  - [12.1](#properties--dot) 使用 `.` 访问对象属性。 eslint: [`dot-notation`](https://eslint.org/docs/rules/dot-notation.html)
 
     ```javascript
     const luke = {
@@ -1322,7 +1175,7 @@
     ```
 
   <a name="properties--bracket"></a><a name="12.2"></a>
-  - [12.2](#properties--bracket) Use bracket notation `[]` when accessing properties with a variable.
+  - [12.2](#properties--bracket) 当属性名有变量时使用 `[]` 访问对象属性。
 
     ```javascript
     const luke = {
@@ -1336,23 +1189,13 @@
 
     const isJedi = getProp('jedi');
     ```
-  <a name="es2016-properties--exponentiation-operator"></a>
-  - [12.3](#es2016-properties--exponentiation-operator) Use exponentiation operator `**` when calculating exponentiations. eslint: [`no-restricted-properties`](https://eslint.org/docs/rules/no-restricted-properties).
-
-    ```javascript
-    // bad
-    const binary = Math.pow(2, 10);
-
-    // good
-    const binary = 2 ** 10;
-    ```
 
 **[⬆ back to top](#table-of-contents)**
 
-## Variables
+## 变量
 
   <a name="variables--const"></a><a name="13.1"></a>
-  - [13.1](#variables--const) Always use `const` or `let` to declare variables. Not doing so will result in global variables. We want to avoid polluting the global namespace. Captain Planet warned us of that. eslint: [`no-undef`](https://eslint.org/docs/rules/no-undef) [`prefer-const`](https://eslint.org/docs/rules/prefer-const)
+  - [13.1](#variables--const) 声明变量时请使用 `const` 或者 `let`  关键字。 如果不这样做会导致产生全局变量，我们希望避免污染全局命名空间。  eslint: [`no-undef`](https://eslint.org/docs/rules/no-undef) [`prefer-const`](https://eslint.org/docs/rules/prefer-const)
 
     ```javascript
     // bad
@@ -1363,22 +1206,20 @@
     ```
 
   <a name="variables--one-const"></a><a name="13.2"></a>
-  - [13.2](#variables--one-const) Use one `const` or `let` declaration per variable or assignment. eslint: [`one-var`](https://eslint.org/docs/rules/one-var.html)
-
-    > Why? It’s easier to add new variable declarations this way, and you never have to worry about swapping out a `;` for a `,` or introducing punctuation-only diffs. You can also step through each declaration with the debugger, instead of jumping through all of them at once.
+  - [13.2](#variables--one-const) 对每一个变量或赋值使用一个 `const` 或者 `let` 。  eslint: [`one-var`](https://eslint.org/docs/rules/one-var.html)
 
     ```javascript
     // bad
     const items = getItems(),
         goSportsTeam = true,
         dragonball = 'z';
-
+    
     // bad
     // (compare to above, and try to spot the mistake)
     const items = getItems(),
         goSportsTeam = true;
         dragonball = 'z';
-
+    
     // good
     const items = getItems();
     const goSportsTeam = true;
@@ -1386,23 +1227,21 @@
     ```
 
   <a name="variables--const-let-group"></a><a name="13.3"></a>
-  - [13.3](#variables--const-let-group) Group all your `const`s and then group all your `let`s.
-
-    > Why? This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
+  - [13.3](#variables--const-let-group) 将所有的 `const`  和 `let` 进行分组。
 
     ```javascript
     // bad
     let i, len, dragonball,
         items = getItems(),
         goSportsTeam = true;
-
+    
     // bad
     let i;
     const items = getItems();
     let dragonball;
     const goSportsTeam = true;
     let len;
-
+    
     // good
     const goSportsTeam = true;
     const items = getItems();
@@ -1412,9 +1251,9 @@
     ```
 
   <a name="variables--define-where-used"></a><a name="13.4"></a>
-  - [13.4](#variables--define-where-used) Assign variables where you need them, but place them in a reasonable place.
+  - [13.4](#variables--define-where-used) 在需要时进行变量赋值，但是需要将变量置于合理的位置。
 
-    > Why? `let` and `const` are block scoped and not function scoped.
+    > Why? `let` and `const` 是块级作用域而非函数级作用域。
 
     ```javascript
     // bad - unnecessary function call
@@ -1449,10 +1288,10 @@
       return name;
     }
     ```
-  <a name="variables--no-chain-assignment"></a><a name="13.5"></a>
-  - [13.5](#variables--no-chain-assignment) Don’t chain variable assignments. eslint: [`no-multi-assign`](https://eslint.org/docs/rules/no-multi-assign)
+    <a name="variables--no-chain-assignment"></a><a name="13.5"></a>
+  - [13.5](#variables--no-chain-assignment) 不要对变量使用链式赋值。 eslint: [`no-multi-assign`](https://eslint.org/docs/rules/no-multi-assign)
 
-    > Why? Chaining variable assignments creates implicit global variables.
+    > Why? 对变量进行链式赋值会产生隐式的全局变量。
 
     ```javascript
     // bad
@@ -1483,18 +1322,18 @@
     ```
 
   <a name="variables--unary-increment-decrement"></a><a name="13.6"></a>
-  - [13.6](#variables--unary-increment-decrement) Avoid using unary increments and decrements (`++`, `--`). eslint [`no-plusplus`](https://eslint.org/docs/rules/no-plusplus)
+  - [13.6](#variables--unary-increment-decrement) 避免使用自增和自减运算符 (`++`, `--`)。eslint [`no-plusplus`](https://eslint.org/docs/rules/no-plusplus)
 
-    > Why? Per the eslint documentation, unary increment and decrement statements are subject to automatic semicolon insertion and can cause silent errors with incrementing or decrementing values within an application. It is also more expressive to mutate your values with statements like `num += 1` instead of `num++` or `num ++`. Disallowing unary increment and decrement statements also prevents you from pre-incrementing/pre-decrementing values unintentionally which can also cause unexpected behavior in your programs.
+    > Why? 根据 eslint 文档，自增和自减运算符可以支持分号自动插入，应用内自增和自减的值会导致静默错误。使用例如 `num += 1` 的语句而不是 `num++` 和 `num ++` 改变变量的值的表达效果更好。
 
     ```javascript
     // bad
-
+    
     const array = [1, 2, 3];
     let num = 1;
     num++;
     --num;
-
+    
     let sum = 0;
     let truthyCount = 0;
     for (let i = 0; i < array.length; i++) {
@@ -1504,75 +1343,72 @@
         truthyCount++;
       }
     }
-
+    
     // good
-
+    
     const array = [1, 2, 3];
     let num = 1;
     num += 1;
     num -= 1;
-
+    
     const sum = array.reduce((a, b) => a + b, 0);
     const truthyCount = array.filter(Boolean).length;
     ```
 
 <a name="variables--linebreak"></a>
-  - [13.7](#variables--linebreak) Avoid linebreaks before or after `=` in an assignment. If your assignment violates [`max-len`](https://eslint.org/docs/rules/max-len.html), surround the value in parens. eslint [`operator-linebreak`](https://eslint.org/docs/rules/operator-linebreak.html).
 
-    > Why? Linebreaks surrounding `=` can obfuscate the value of an assignment.
+  - [13.7](#variables--linebreak) 在赋值中 `=` 前后不允许换行。如果赋值表达式超出 [`最大长度`](https://eslint.org/docs/rules/max-len.html)，可以将值包裹起来。 eslint [`operator-linebreak`](https://eslint.org/docs/rules/operator-linebreak.html)
 
     ```javascript
     // bad
     const foo =
       superLongLongLongLongLongLongLongLongFunctionName();
-
+    
     // bad
     const foo
       = 'superLongLongLongLongLongLongLongLongString';
-
+    
     // good
     const foo = (
       superLongLongLongLongLongLongLongLongFunctionName()
     );
-
+    
     // good
     const foo = 'superLongLongLongLongLongLongLongLongString';
     ```
 
 <a name="variables--no-unused-vars"></a>
-  - [13.8](#variables--no-unused-vars) Disallow unused variables. eslint: [`no-unused-vars`](https://eslint.org/docs/rules/no-unused-vars)
-
-    > Why? Variables that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring. Such variables take up space in the code and can lead to confusion by readers.
+  - [13.8](#variables--no-unused-vars) 不允许有未使用的变量。 eslint: [`no-unused-vars`](https://eslint.org/docs/rules/no-unused-vars)
 
     ```javascript
     // bad
-
+    
     var some_unused_var = 42;
-
+    
     // Write-only variables are not considered as used.
     var y = 10;
     y = 5;
-
+    
     // A read for a modification of itself is not considered as used.
     var z = 0;
     z = z + 1;
-
+    
     // Unused function arguments.
     function getX(x, y) {
         return x;
     }
-
+    
     // good
-
+    
     function getXPlusY(x, y) {
       return x + y;
     }
-
+    
     var x = 1;
     var y = a + 2;
-
+    
     alert(getXPlusY(x, y));
-
+    
     // 'type' is ignored even if unused because it has a rest property sibling.
     // This is a form of extracting an object that omits the specified keys.
     var { type, ...coords } = data;
