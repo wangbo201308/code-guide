@@ -867,3 +867,1181 @@
        bar
     )
     ```
+
+    **[⬆ back to top](#table-of-contents)**
+
+## Classes & Constructors
+
+  <a name="constructors--use-class"></a><a name="9.1"></a>
+  - [9.1](#constructors--use-class) Always use `class`. Avoid manipulating `prototype` directly.
+
+    > Why? `class` syntax is more concise and easier to reason about.
+
+    ```javascript
+    // bad
+    function Queue(contents = []) {
+      this.queue = [...contents];
+    }
+    Queue.prototype.pop = function () {
+      const value = this.queue[0];
+      this.queue.splice(0, 1);
+      return value;
+    };
+
+    // good
+    class Queue {
+      constructor(contents = []) {
+        this.queue = [...contents];
+      }
+      pop() {
+        const value = this.queue[0];
+        this.queue.splice(0, 1);
+        return value;
+      }
+    }
+    ```
+
+  <a name="constructors--extends"></a><a name="9.2"></a>
+  - [9.2](#constructors--extends) Use `extends` for inheritance.
+
+    > Why? It is a built-in way to inherit prototype functionality without breaking `instanceof`.
+
+    ```javascript
+    // bad
+    const inherits = require('inherits');
+    function PeekableQueue(contents) {
+      Queue.apply(this, contents);
+    }
+    inherits(PeekableQueue, Queue);
+    PeekableQueue.prototype.peek = function () {
+      return this.queue[0];
+    };
+
+    // good
+    class PeekableQueue extends Queue {
+      peek() {
+        return this.queue[0];
+      }
+    }
+    ```
+
+  <a name="constructors--chaining"></a><a name="9.3"></a>
+  - [9.3](#constructors--chaining) Methods can return `this` to help with method chaining.
+
+    ```javascript
+    // bad
+    Jedi.prototype.jump = function () {
+      this.jumping = true;
+      return true;
+    };
+
+    Jedi.prototype.setHeight = function (height) {
+      this.height = height;
+    };
+
+    const luke = new Jedi();
+    luke.jump(); // => true
+    luke.setHeight(20); // => undefined
+
+    // good
+    class Jedi {
+      jump() {
+        this.jumping = true;
+        return this;
+      }
+
+      setHeight(height) {
+        this.height = height;
+        return this;
+      }
+    }
+
+    const luke = new Jedi();
+
+    luke.jump()
+      .setHeight(20);
+    ```
+
+  <a name="constructors--tostring"></a><a name="9.4"></a>
+  - [9.4](#constructors--tostring) It’s okay to write a custom `toString()` method, just make sure it works successfully and causes no side effects.
+
+    ```javascript
+    class Jedi {
+      constructor(options = {}) {
+        this.name = options.name || 'no name';
+      }
+
+      getName() {
+        return this.name;
+      }
+
+      toString() {
+        return `Jedi - ${this.getName()}`;
+      }
+    }
+    ```
+
+  <a name="constructors--no-useless"></a><a name="9.5"></a>
+  - [9.5](#constructors--no-useless) Classes have a default constructor if one is not specified. An empty constructor function or one that just delegates to a parent class is unnecessary. eslint: [`no-useless-constructor`](https://eslint.org/docs/rules/no-useless-constructor)
+
+    ```javascript
+    // bad
+    class Jedi {
+      constructor() {}
+
+      getName() {
+        return this.name;
+      }
+    }
+
+    // bad
+    class Rey extends Jedi {
+      constructor(...args) {
+        super(...args);
+      }
+    }
+
+    // good
+    class Rey extends Jedi {
+      constructor(...args) {
+        super(...args);
+        this.name = 'Rey';
+      }
+    }
+    ```
+
+  <a name="classes--no-duplicate-members"></a>
+  - [9.6](#classes--no-duplicate-members) Avoid duplicate class members. eslint: [`no-dupe-class-members`](https://eslint.org/docs/rules/no-dupe-class-members)
+
+    > Why? Duplicate class member declarations will silently prefer the last one - having duplicates is almost certainly a bug.
+
+    ```javascript
+    // bad
+    class Foo {
+      bar() { return 1; }
+      bar() { return 2; }
+    }
+
+    // good
+    class Foo {
+      bar() { return 1; }
+    }
+
+    // good
+    class Foo {
+      bar() { return 2; }
+    }
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Modules
+
+  <a name="modules--use-them"></a><a name="10.1"></a>
+  - [10.1](#modules--use-them) Always use modules (`import`/`export`) over a non-standard module system. You can always transpile to your preferred module system.
+
+    > Why? Modules are the future, let’s start using the future now.
+
+    ```javascript
+    // bad
+    const AirbnbStyleGuide = require('./AirbnbStyleGuide');
+    module.exports = AirbnbStyleGuide.es6;
+
+    // ok
+    import AirbnbStyleGuide from './AirbnbStyleGuide';
+    export default AirbnbStyleGuide.es6;
+
+    // best
+    import { es6 } from './AirbnbStyleGuide';
+    export default es6;
+    ```
+
+  <a name="modules--no-wildcard"></a><a name="10.2"></a>
+  - [10.2](#modules--no-wildcard) Do not use wildcard imports.
+
+    > Why? This makes sure you have a single default export.
+
+    ```javascript
+    // bad
+    import * as AirbnbStyleGuide from './AirbnbStyleGuide';
+
+    // good
+    import AirbnbStyleGuide from './AirbnbStyleGuide';
+    ```
+
+  <a name="modules--no-export-from-import"></a><a name="10.3"></a>
+  - [10.3](#modules--no-export-from-import) And do not export directly from an import.
+
+    > Why? Although the one-liner is concise, having one clear way to import and one clear way to export makes things consistent.
+
+    ```javascript
+    // bad
+    // filename es6.js
+    export { es6 as default } from './AirbnbStyleGuide';
+
+    // good
+    // filename es6.js
+    import { es6 } from './AirbnbStyleGuide';
+    export default es6;
+    ```
+
+  <a name="modules--no-duplicate-imports"></a>
+  - [10.4](#modules--no-duplicate-imports) Only import from a path in one place.
+ eslint: [`no-duplicate-imports`](https://eslint.org/docs/rules/no-duplicate-imports)
+    > Why? Having multiple lines that import from the same path can make code harder to maintain.
+
+    ```javascript
+    // bad
+    import foo from 'foo';
+    // … some other imports … //
+    import { named1, named2 } from 'foo';
+
+    // good
+    import foo, { named1, named2 } from 'foo';
+
+    // good
+    import foo, {
+      named1,
+      named2,
+    } from 'foo';
+    ```
+
+  <a name="modules--no-mutable-exports"></a>
+  - [10.5](#modules--no-mutable-exports) Do not export mutable bindings.
+ eslint: [`import/no-mutable-exports`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-mutable-exports.md)
+    > Why? Mutation should be avoided in general, but in particular when exporting mutable bindings. While this technique may be needed for some special cases, in general, only constant references should be exported.
+
+    ```javascript
+    // bad
+    let foo = 3;
+    export { foo };
+
+    // good
+    const foo = 3;
+    export { foo };
+    ```
+
+  <a name="modules--prefer-default-export"></a>
+  - [10.6](#modules--prefer-default-export) In modules with a single export, prefer default export over named export.
+ eslint: [`import/prefer-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md)
+    > Why? To encourage more files that only ever export one thing, which is better for readability and maintainability.
+
+    ```javascript
+    // bad
+    export function foo() {}
+
+    // good
+    export default function foo() {}
+    ```
+
+  <a name="modules--imports-first"></a>
+  - [10.7](#modules--imports-first) Put all `import`s above non-import statements.
+ eslint: [`import/first`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/first.md)
+    > Why? Since `import`s are hoisted, keeping them all at the top prevents surprising behavior.
+
+    ```javascript
+    // bad
+    import foo from 'foo';
+    foo.init();
+
+    import bar from 'bar';
+
+    // good
+    import foo from 'foo';
+    import bar from 'bar';
+
+    foo.init();
+    ```
+
+  <a name="modules--multiline-imports-over-newlines"></a>
+  - [10.8](#modules--multiline-imports-over-newlines) Multiline imports should be indented just like multiline array and object literals.
+
+    > Why? The curly braces follow the same indentation rules as every other curly brace block in the style guide, as do the trailing commas.
+
+    ```javascript
+    // bad
+    import {longNameA, longNameB, longNameC, longNameD, longNameE} from 'path';
+
+    // good
+    import {
+      longNameA,
+      longNameB,
+      longNameC,
+      longNameD,
+      longNameE,
+    } from 'path';
+    ```
+
+  <a name="modules--no-webpack-loader-syntax"></a>
+  - [10.9](#modules--no-webpack-loader-syntax) Disallow Webpack loader syntax in module import statements.
+ eslint: [`import/no-webpack-loader-syntax`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-webpack-loader-syntax.md)
+    > Why? Since using Webpack syntax in the imports couples the code to a module bundler. Prefer using the loader syntax in `webpack.config.js`.
+
+    ```javascript
+    // bad
+    import fooSass from 'css!sass!foo.scss';
+    import barCss from 'style!css!bar.css';
+
+    // good
+    import fooSass from 'foo.scss';
+    import barCss from 'bar.css';
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Iterators and Generators
+
+  <a name="iterators--nope"></a><a name="11.1"></a>
+  - [11.1](#iterators--nope) Don’t use iterators. Prefer JavaScript’s higher-order functions instead of loops like `for-in` or `for-of`. eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
+
+    > Why? This enforces our immutable rule. Dealing with pure functions that return values is easier to reason about than side effects.
+
+    > Use `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... to iterate over arrays, and `Object.keys()` / `Object.values()` / `Object.entries()` to produce arrays so you can iterate over objects.
+
+    ```javascript
+    const numbers = [1, 2, 3, 4, 5];
+
+    // bad
+    let sum = 0;
+    for (let num of numbers) {
+      sum += num;
+    }
+    sum === 15;
+
+    // good
+    let sum = 0;
+    numbers.forEach((num) => {
+      sum += num;
+    });
+    sum === 15;
+
+    // best (use the functional force)
+    const sum = numbers.reduce((total, num) => total + num, 0);
+    sum === 15;
+
+    // bad
+    const increasedByOne = [];
+    for (let i = 0; i < numbers.length; i++) {
+      increasedByOne.push(numbers[i] + 1);
+    }
+
+    // good
+    const increasedByOne = [];
+    numbers.forEach((num) => {
+      increasedByOne.push(num + 1);
+    });
+
+    // best (keeping it functional)
+    const increasedByOne = numbers.map(num => num + 1);
+    ```
+
+  <a name="generators--nope"></a><a name="11.2"></a>
+  - [11.2](#generators--nope) Don’t use generators for now.
+
+    > Why? They don’t transpile well to ES5.
+
+  <a name="generators--spacing"></a>
+  - [11.3](#generators--spacing) If you must use generators, or if you disregard [our advice](#generators--nope), make sure their function signature is spaced properly. eslint: [`generator-star-spacing`](https://eslint.org/docs/rules/generator-star-spacing)
+
+    > Why? `function` and `*` are part of the same conceptual keyword - `*` is not a modifier for `function`, `function*` is a unique construct, different from `function`.
+
+    ```javascript
+    // bad
+    function * foo() {
+      // ...
+    }
+
+    // bad
+    const bar = function * () {
+      // ...
+    };
+
+    // bad
+    const baz = function *() {
+      // ...
+    };
+
+    // bad
+    const quux = function*() {
+      // ...
+    };
+
+    // bad
+    function*foo() {
+      // ...
+    }
+
+    // bad
+    function *foo() {
+      // ...
+    }
+
+    // very bad
+    function
+    *
+    foo() {
+      // ...
+    }
+
+    // very bad
+    const wat = function
+    *
+    () {
+      // ...
+    };
+
+    // good
+    function* foo() {
+      // ...
+    }
+
+    // good
+    const foo = function* () {
+      // ...
+    };
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Properties
+
+  <a name="properties--dot"></a><a name="12.1"></a>
+  - [12.1](#properties--dot) Use dot notation when accessing properties. eslint: [`dot-notation`](https://eslint.org/docs/rules/dot-notation.html)
+
+    ```javascript
+    const luke = {
+      jedi: true,
+      age: 28,
+    };
+
+    // bad
+    const isJedi = luke['jedi'];
+
+    // good
+    const isJedi = luke.jedi;
+    ```
+
+  <a name="properties--bracket"></a><a name="12.2"></a>
+  - [12.2](#properties--bracket) Use bracket notation `[]` when accessing properties with a variable.
+
+    ```javascript
+    const luke = {
+      jedi: true,
+      age: 28,
+    };
+
+    function getProp(prop) {
+      return luke[prop];
+    }
+
+    const isJedi = getProp('jedi');
+    ```
+  <a name="es2016-properties--exponentiation-operator"></a>
+  - [12.3](#es2016-properties--exponentiation-operator) Use exponentiation operator `**` when calculating exponentiations. eslint: [`no-restricted-properties`](https://eslint.org/docs/rules/no-restricted-properties).
+
+    ```javascript
+    // bad
+    const binary = Math.pow(2, 10);
+
+    // good
+    const binary = 2 ** 10;
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Variables
+
+  <a name="variables--const"></a><a name="13.1"></a>
+  - [13.1](#variables--const) Always use `const` or `let` to declare variables. Not doing so will result in global variables. We want to avoid polluting the global namespace. Captain Planet warned us of that. eslint: [`no-undef`](https://eslint.org/docs/rules/no-undef) [`prefer-const`](https://eslint.org/docs/rules/prefer-const)
+
+    ```javascript
+    // bad
+    superPower = new SuperPower();
+
+    // good
+    const superPower = new SuperPower();
+    ```
+
+  <a name="variables--one-const"></a><a name="13.2"></a>
+  - [13.2](#variables--one-const) Use one `const` or `let` declaration per variable or assignment. eslint: [`one-var`](https://eslint.org/docs/rules/one-var.html)
+
+    > Why? It’s easier to add new variable declarations this way, and you never have to worry about swapping out a `;` for a `,` or introducing punctuation-only diffs. You can also step through each declaration with the debugger, instead of jumping through all of them at once.
+
+    ```javascript
+    // bad
+    const items = getItems(),
+        goSportsTeam = true,
+        dragonball = 'z';
+
+    // bad
+    // (compare to above, and try to spot the mistake)
+    const items = getItems(),
+        goSportsTeam = true;
+        dragonball = 'z';
+
+    // good
+    const items = getItems();
+    const goSportsTeam = true;
+    const dragonball = 'z';
+    ```
+
+  <a name="variables--const-let-group"></a><a name="13.3"></a>
+  - [13.3](#variables--const-let-group) Group all your `const`s and then group all your `let`s.
+
+    > Why? This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
+
+    ```javascript
+    // bad
+    let i, len, dragonball,
+        items = getItems(),
+        goSportsTeam = true;
+
+    // bad
+    let i;
+    const items = getItems();
+    let dragonball;
+    const goSportsTeam = true;
+    let len;
+
+    // good
+    const goSportsTeam = true;
+    const items = getItems();
+    let dragonball;
+    let i;
+    let length;
+    ```
+
+  <a name="variables--define-where-used"></a><a name="13.4"></a>
+  - [13.4](#variables--define-where-used) Assign variables where you need them, but place them in a reasonable place.
+
+    > Why? `let` and `const` are block scoped and not function scoped.
+
+    ```javascript
+    // bad - unnecessary function call
+    function checkName(hasName) {
+      const name = getName();
+
+      if (hasName === 'test') {
+        return false;
+      }
+
+      if (name === 'test') {
+        this.setName('');
+        return false;
+      }
+
+      return name;
+    }
+
+    // good
+    function checkName(hasName) {
+      if (hasName === 'test') {
+        return false;
+      }
+
+      const name = getName();
+
+      if (name === 'test') {
+        this.setName('');
+        return false;
+      }
+
+      return name;
+    }
+    ```
+  <a name="variables--no-chain-assignment"></a><a name="13.5"></a>
+  - [13.5](#variables--no-chain-assignment) Don’t chain variable assignments. eslint: [`no-multi-assign`](https://eslint.org/docs/rules/no-multi-assign)
+
+    > Why? Chaining variable assignments creates implicit global variables.
+
+    ```javascript
+    // bad
+    (function example() {
+      // JavaScript interprets this as
+      // let a = ( b = ( c = 1 ) );
+      // The let keyword only applies to variable a; variables b and c become
+      // global variables.
+      let a = b = c = 1;
+    }());
+
+    console.log(a); // throws ReferenceError
+    console.log(b); // 1
+    console.log(c); // 1
+
+    // good
+    (function example() {
+      let a = 1;
+      let b = a;
+      let c = a;
+    }());
+
+    console.log(a); // throws ReferenceError
+    console.log(b); // throws ReferenceError
+    console.log(c); // throws ReferenceError
+
+    // the same applies for `const`
+    ```
+
+  <a name="variables--unary-increment-decrement"></a><a name="13.6"></a>
+  - [13.6](#variables--unary-increment-decrement) Avoid using unary increments and decrements (`++`, `--`). eslint [`no-plusplus`](https://eslint.org/docs/rules/no-plusplus)
+
+    > Why? Per the eslint documentation, unary increment and decrement statements are subject to automatic semicolon insertion and can cause silent errors with incrementing or decrementing values within an application. It is also more expressive to mutate your values with statements like `num += 1` instead of `num++` or `num ++`. Disallowing unary increment and decrement statements also prevents you from pre-incrementing/pre-decrementing values unintentionally which can also cause unexpected behavior in your programs.
+
+    ```javascript
+    // bad
+
+    const array = [1, 2, 3];
+    let num = 1;
+    num++;
+    --num;
+
+    let sum = 0;
+    let truthyCount = 0;
+    for (let i = 0; i < array.length; i++) {
+      let value = array[i];
+      sum += value;
+      if (value) {
+        truthyCount++;
+      }
+    }
+
+    // good
+
+    const array = [1, 2, 3];
+    let num = 1;
+    num += 1;
+    num -= 1;
+
+    const sum = array.reduce((a, b) => a + b, 0);
+    const truthyCount = array.filter(Boolean).length;
+    ```
+
+<a name="variables--linebreak"></a>
+  - [13.7](#variables--linebreak) Avoid linebreaks before or after `=` in an assignment. If your assignment violates [`max-len`](https://eslint.org/docs/rules/max-len.html), surround the value in parens. eslint [`operator-linebreak`](https://eslint.org/docs/rules/operator-linebreak.html).
+
+    > Why? Linebreaks surrounding `=` can obfuscate the value of an assignment.
+
+    ```javascript
+    // bad
+    const foo =
+      superLongLongLongLongLongLongLongLongFunctionName();
+
+    // bad
+    const foo
+      = 'superLongLongLongLongLongLongLongLongString';
+
+    // good
+    const foo = (
+      superLongLongLongLongLongLongLongLongFunctionName()
+    );
+
+    // good
+    const foo = 'superLongLongLongLongLongLongLongLongString';
+    ```
+
+<a name="variables--no-unused-vars"></a>
+  - [13.8](#variables--no-unused-vars) Disallow unused variables. eslint: [`no-unused-vars`](https://eslint.org/docs/rules/no-unused-vars)
+
+    > Why? Variables that are declared and not used anywhere in the code are most likely an error due to incomplete refactoring. Such variables take up space in the code and can lead to confusion by readers.
+
+    ```javascript
+    // bad
+
+    var some_unused_var = 42;
+
+    // Write-only variables are not considered as used.
+    var y = 10;
+    y = 5;
+
+    // A read for a modification of itself is not considered as used.
+    var z = 0;
+    z = z + 1;
+
+    // Unused function arguments.
+    function getX(x, y) {
+        return x;
+    }
+
+    // good
+
+    function getXPlusY(x, y) {
+      return x + y;
+    }
+
+    var x = 1;
+    var y = a + 2;
+
+    alert(getXPlusY(x, y));
+
+    // 'type' is ignored even if unused because it has a rest property sibling.
+    // This is a form of extracting an object that omits the specified keys.
+    var { type, ...coords } = data;
+    // 'coords' is now the 'data' object without its 'type' property.
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Hoisting
+
+  <a name="hoisting--about"></a><a name="14.1"></a>
+  - [14.1](#hoisting--about) `var` declarations get hoisted to the top of their closest enclosing function scope, their assignment does not. `const` and `let` declarations are blessed with a new concept called [Temporal Dead Zones (TDZ)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_Dead_Zone). It’s important to know why [typeof is no longer safe](http://es-discourse.com/t/why-typeof-is-no-longer-safe/15).
+
+    ```javascript
+    // we know this wouldn’t work (assuming there
+    // is no notDefined global variable)
+    function example() {
+      console.log(notDefined); // => throws a ReferenceError
+    }
+
+    // creating a variable declaration after you
+    // reference the variable will work due to
+    // variable hoisting. Note: the assignment
+    // value of `true` is not hoisted.
+    function example() {
+      console.log(declaredButNotAssigned); // => undefined
+      var declaredButNotAssigned = true;
+    }
+
+    // the interpreter is hoisting the variable
+    // declaration to the top of the scope,
+    // which means our example could be rewritten as:
+    function example() {
+      let declaredButNotAssigned;
+      console.log(declaredButNotAssigned); // => undefined
+      declaredButNotAssigned = true;
+    }
+
+    // using const and let
+    function example() {
+      console.log(declaredButNotAssigned); // => throws a ReferenceError
+      console.log(typeof declaredButNotAssigned); // => throws a ReferenceError
+      const declaredButNotAssigned = true;
+    }
+    ```
+
+  <a name="hoisting--anon-expressions"></a><a name="14.2"></a>
+  - [14.2](#hoisting--anon-expressions) Anonymous function expressions hoist their variable name, but not the function assignment.
+
+    ```javascript
+    function example() {
+      console.log(anonymous); // => undefined
+
+      anonymous(); // => TypeError anonymous is not a function
+
+      var anonymous = function () {
+        console.log('anonymous function expression');
+      };
+    }
+    ```
+
+  <a name="hoisting--named-expresions"></a><a name="hoisting--named-expressions"></a><a name="14.3"></a>
+  - [14.3](#hoisting--named-expressions) Named function expressions hoist the variable name, not the function name or the function body.
+
+    ```javascript
+    function example() {
+      console.log(named); // => undefined
+
+      named(); // => TypeError named is not a function
+
+      superPower(); // => ReferenceError superPower is not defined
+
+      var named = function superPower() {
+        console.log('Flying');
+      };
+    }
+
+    // the same is true when the function name
+    // is the same as the variable name.
+    function example() {
+      console.log(named); // => undefined
+
+      named(); // => TypeError named is not a function
+
+      var named = function named() {
+        console.log('named');
+      };
+    }
+    ```
+
+  <a name="hoisting--declarations"></a><a name="14.4"></a>
+  - [14.4](#hoisting--declarations) Function declarations hoist their name and the function body.
+
+    ```javascript
+    function example() {
+      superPower(); // => Flying
+
+      function superPower() {
+        console.log('Flying');
+      }
+    }
+    ```
+
+  - For more information refer to [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting/) by [Ben Cherry](http://www.adequatelygood.com/).
+
+**[⬆ back to top](#table-of-contents)**
+
+## Comparison Operators & Equality
+
+  <a name="comparison--eqeqeq"></a><a name="15.1"></a>
+  - [15.1](#comparison--eqeqeq) Use `===` and `!==` over `==` and `!=`. eslint: [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq.html)
+
+  <a name="comparison--if"></a><a name="15.2"></a>
+  - [15.2](#comparison--if) Conditional statements such as the `if` statement evaluate their expression using coercion with the `ToBoolean` abstract method and always follow these simple rules:
+
+    - **Objects** evaluate to **true**
+    - **Undefined** evaluates to **false**
+    - **Null** evaluates to **false**
+    - **Booleans** evaluate to **the value of the boolean**
+    - **Numbers** evaluate to **false** if **+0, -0, or NaN**, otherwise **true**
+    - **Strings** evaluate to **false** if an empty string `''`, otherwise **true**
+
+    ```javascript
+    if ([0] && []) {
+      // true
+      // an array (even an empty one) is an object, objects will evaluate to true
+    }
+    ```
+
+  <a name="comparison--shortcuts"></a><a name="15.3"></a>
+  - [15.3](#comparison--shortcuts) Use shortcuts for booleans, but explicit comparisons for strings and numbers.
+
+    ```javascript
+    // bad
+    if (isValid === true) {
+      // ...
+    }
+
+    // good
+    if (isValid) {
+      // ...
+    }
+
+    // bad
+    if (name) {
+      // ...
+    }
+
+    // good
+    if (name !== '') {
+      // ...
+    }
+
+    // bad
+    if (collection.length) {
+      // ...
+    }
+
+    // good
+    if (collection.length > 0) {
+      // ...
+    }
+    ```
+
+  <a name="comparison--moreinfo"></a><a name="15.4"></a>
+  - [15.4](#comparison--moreinfo) For more information see [Truth Equality and JavaScript](https://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108) by Angus Croll.
+
+  <a name="comparison--switch-blocks"></a><a name="15.5"></a>
+  - [15.5](#comparison--switch-blocks) Use braces to create blocks in `case` and `default` clauses that contain lexical declarations (e.g. `let`, `const`, `function`, and `class`). eslint: [`no-case-declarations`](https://eslint.org/docs/rules/no-case-declarations.html)
+
+    > Why? Lexical declarations are visible in the entire `switch` block but only get initialized when assigned, which only happens when its `case` is reached. This causes problems when multiple `case` clauses attempt to define the same thing.
+
+    ```javascript
+    // bad
+    switch (foo) {
+      case 1:
+        let x = 1;
+        break;
+      case 2:
+        const y = 2;
+        break;
+      case 3:
+        function f() {
+          // ...
+        }
+        break;
+      default:
+        class C {}
+    }
+
+    // good
+    switch (foo) {
+      case 1: {
+        let x = 1;
+        break;
+      }
+      case 2: {
+        const y = 2;
+        break;
+      }
+      case 3: {
+        function f() {
+          // ...
+        }
+        break;
+      }
+      case 4:
+        bar();
+        break;
+      default: {
+        class C {}
+      }
+    }
+    ```
+
+  <a name="comparison--nested-ternaries"></a><a name="15.6"></a>
+  - [15.6](#comparison--nested-ternaries) Ternaries should not be nested and generally be single line expressions. eslint: [`no-nested-ternary`](https://eslint.org/docs/rules/no-nested-ternary.html)
+
+    ```javascript
+    // bad
+    const foo = maybe1 > maybe2
+      ? "bar"
+      : value1 > value2 ? "baz" : null;
+
+    // split into 2 separated ternary expressions
+    const maybeNull = value1 > value2 ? 'baz' : null;
+
+    // better
+    const foo = maybe1 > maybe2
+      ? 'bar'
+      : maybeNull;
+
+    // best
+    const foo = maybe1 > maybe2 ? 'bar' : maybeNull;
+    ```
+
+  <a name="comparison--unneeded-ternary"></a><a name="15.7"></a>
+  - [15.7](#comparison--unneeded-ternary) Avoid unneeded ternary statements. eslint: [`no-unneeded-ternary`](https://eslint.org/docs/rules/no-unneeded-ternary.html)
+
+    ```javascript
+    // bad
+    const foo = a ? a : b;
+    const bar = c ? true : false;
+    const baz = c ? false : true;
+
+    // good
+    const foo = a || b;
+    const bar = !!c;
+    const baz = !c;
+    ```
+
+  <a name="comparison--no-mixed-operators"></a>
+  - [15.8](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators (`+`, `-`, `*`, & `/`) since their precedence is broadly understood. eslint: [`no-mixed-operators`](https://eslint.org/docs/rules/no-mixed-operators.html)
+
+    > Why? This improves readability and clarifies the developer’s intention.
+
+    ```javascript
+    // bad
+    const foo = a && b < 0 || c > 0 || d + 1 === 0;
+
+    // bad
+    const bar = a ** b - 5 % d;
+
+    // bad
+    // one may be confused into thinking (a || b) && c
+    if (a || b && c) {
+      return d;
+    }
+
+    // good
+    const foo = (a && b < 0) || c > 0 || (d + 1 === 0);
+
+    // good
+    const bar = (a ** b) - (5 % d);
+
+    // good
+    if (a || (b && c)) {
+      return d;
+    }
+
+    // good
+    const bar = a + b / c * d;
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Blocks
+
+  <a name="blocks--braces"></a><a name="16.1"></a>
+  - [16.1](#blocks--braces) Use braces with all multi-line blocks. eslint: [`nonblock-statement-body-position`](https://eslint.org/docs/rules/nonblock-statement-body-position)
+
+    ```javascript
+    // bad
+    if (test)
+      return false;
+
+    // good
+    if (test) return false;
+
+    // good
+    if (test) {
+      return false;
+    }
+
+    // bad
+    function foo() { return false; }
+
+    // good
+    function bar() {
+      return false;
+    }
+    ```
+
+  <a name="blocks--cuddled-elses"></a><a name="16.2"></a>
+  - [16.2](#blocks--cuddled-elses) If you’re using multi-line blocks with `if` and `else`, put `else` on the same line as your `if` block’s closing brace. eslint: [`brace-style`](https://eslint.org/docs/rules/brace-style.html)
+
+    ```javascript
+    // bad
+    if (test) {
+      thing1();
+      thing2();
+    }
+    else {
+      thing3();
+    }
+
+    // good
+    if (test) {
+      thing1();
+      thing2();
+    } else {
+      thing3();
+    }
+    ```
+
+  <a name="blocks--no-else-return"></a><a name="16.3"></a>
+  - [16.3](#blocks--no-else-return) If an `if` block always executes a `return` statement, the subsequent `else` block is unnecessary. A `return` in an `else if` block following an `if` block that contains a `return` can be separated into multiple `if` blocks. eslint: [`no-else-return`](https://eslint.org/docs/rules/no-else-return)
+
+    ```javascript
+    // bad
+    function foo() {
+      if (x) {
+        return x;
+      } else {
+        return y;
+      }
+    }
+
+    // bad
+    function cats() {
+      if (x) {
+        return x;
+      } else if (y) {
+        return y;
+      }
+    }
+
+    // bad
+    function dogs() {
+      if (x) {
+        return x;
+      } else {
+        if (y) {
+          return y;
+        }
+      }
+    }
+
+    // good
+    function foo() {
+      if (x) {
+        return x;
+      }
+
+      return y;
+    }
+
+    // good
+    function cats() {
+      if (x) {
+        return x;
+      }
+
+      if (y) {
+        return y;
+      }
+    }
+
+    // good
+    function dogs(x) {
+      if (x) {
+        if (z) {
+          return y;
+        }
+      } else {
+        return z;
+      }
+    }
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## Control Statements
+
+  <a name="control-statements"></a>
+  - [17.1](#control-statements) In case your control statement (`if`, `while` etc.) gets too long or exceeds the maximum line length, each (grouped) condition could be put into a new line. The logical operator should begin the line.
+
+    > Why? Requiring operators at the beginning of the line keeps the operators aligned and follows a pattern similar to method chaining. This also improves readability by making it easier to visually follow complex logic.
+
+    ```javascript
+    // bad
+    if ((foo === 123 || bar === 'abc') && doesItLookGoodWhenItBecomesThatLong() && isThisReallyHappening()) {
+      thing1();
+    }
+
+    // bad
+    if (foo === 123 &&
+      bar === 'abc') {
+      thing1();
+    }
+
+    // bad
+    if (foo === 123
+      && bar === 'abc') {
+      thing1();
+    }
+
+    // bad
+    if (
+      foo === 123 &&
+      bar === 'abc'
+    ) {
+      thing1();
+    }
+
+    // good
+    if (
+      foo === 123
+      && bar === 'abc'
+    ) {
+      thing1();
+    }
+
+    // good
+    if (
+      (foo === 123 || bar === 'abc')
+      && doesItLookGoodWhenItBecomesThatLong()
+      && isThisReallyHappening()
+    ) {
+      thing1();
+    }
+
+    // good
+    if (foo === 123 && bar === 'abc') {
+      thing1();
+    }
+    ```
+
+  <a name="control-statement--value-selection"></a><a name="control-statements--value-selection"></a>
+  - [17.2](#control-statements--value-selection) Don't use selection operators in place of control statements.
+
+    ```javascript
+    // bad
+    !isRunning && startRunning();
+
+    // good
+    if (!isRunning) {
+      startRunning();
+    }
+    ```
+
+**[⬆ back to top](#table-of-contents)**
