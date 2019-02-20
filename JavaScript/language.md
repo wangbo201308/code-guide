@@ -20,7 +20,7 @@
   - [16]. [Blocks](#blocks)
   - [17]. [空格](#whitespace)
   - [18]. [逗号](#commas)
-  - [19]. [分号](#semicons)
+  - [19]. [分号](#semicolons)
 
 <a name="types"></a>
 ## 类型
@@ -889,7 +889,7 @@
     )
     ```
 
-    **[⬆ back to top](#table-of-contents)**
+    **[⬆ back to top](#table-contents)**
 <a name="constructors"></a>
 ## 类 & 构造函数
 
@@ -971,7 +971,7 @@
     }
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="modules"></a>
 ## 模块
 
@@ -1066,7 +1066,7 @@
     ```
 
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="iterators-and-generators"></a>
 ## Iterators and Generators
 
@@ -1175,7 +1175,7 @@
     };
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="properties"></a>
 ## 对象属性
 
@@ -1211,7 +1211,7 @@
     const isJedi = getProp('jedi');
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="variables"></a>
 ## 变量
 
@@ -1436,7 +1436,7 @@
     // 'coords' is now the 'data' object without its 'type' property.
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="hoisting"></a>
 ## Hoisting
 
@@ -1533,7 +1533,7 @@
     }
     ```
 
-    **[⬆ back to top](#table-of-contents)**
+    **[⬆ back to top](#table-contents)**
 
 <a name="comparison-operators--equality"></a>
 ## Comparison Operators & Equality
@@ -1691,7 +1691,7 @@
     const bar = a + b / c * d;
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="blocks"></a>
 ## Blocks
 
@@ -1807,7 +1807,7 @@
     }
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="whitespace"></a>
 ## 空格
 
@@ -2055,7 +2055,7 @@
   <a name="whitespace--no-trailing-spaces"></a>
   - [17.14](#whitespace--no-trailing-spaces) 禁止在一行的末尾使用拖尾空格。 eslint: [`no-trailing-spaces`](https://eslint.org/docs/rules/no-trailing-spaces)
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="commas"></a>
 ## 逗号
 
@@ -2190,7 +2190,7 @@
     );
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
 <a name="semicolons"></a>
 ## 分号
 
@@ -2238,4 +2238,4 @@
     }
     ```
 
-**[⬆ back to top](#table-of-contents)**
+**[⬆ back to top](#table-contents)**
