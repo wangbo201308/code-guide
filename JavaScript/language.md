@@ -1,28 +1,26 @@
-<a name="language-guide"></a></a>
 
 # 语言规范
-
+<a name="tabel-contents"></a>
 ## 目录
-
-  [1]. [类型](#types)
-  [2]. [引用](#references)
-  [3]. [对象](#objects)
-  [4]. [数组](#arrays)
-  [5]. [解构赋值](#destructuring)
-  [6]. [字符串](#strings)
-  [7 ]. [函数](#functions)
-  [8]. [箭头函数](#arrow-functions)
-  [9]. [类 & 构造函数](#classes--constructors)
-  [10]. [模块](#modules)
-  [11]. [Iterators and Generators](#iterators-and-generators)
-  [12]. [对象属性](#properties)
-  [13]. [变量](#variables)
-  [14]. [Hoisting](#hoisting)
-  [15]. [Comparison Operators & Equality](#comparison-operators--equality)
-  [16]. [Blocks](#blocks)
-  [17]. [空格](#whitespace)
-  [18]. [逗号](#commas)
-  [18]. [分号](#semicons)
+  - [1]. [类型](#types)
+  - [2]. [引用](#references)
+  - [3]. [对象](#objects)
+  - [4]. [数组](#arrays)
+  - [5]. [解构赋值](#destructuring)
+  - [6]. [字符串](#strings)
+  - [7 ]. [函数](#functions)
+  - [8]. [箭头函数](#arrow-functions)
+  - [9]. [类 & 构造函数](#classes--constructors)
+  - [10]. [模块](#modules)
+  - [11]. [Iterators and Generators](#iterators-and-generators)
+  - [12]. [对象属性](#properties)
+  - [13]. [变量](#variables)
+  - [14]. [Hoisting](#hoisting)
+  - [15]. [Comparison Operators & Equality](#comparison-operators--equality)
+  - [16]. [Blocks](#blocks)
+  - [17]. [空格](#whitespace)
+  - [18]. [逗号](#commas)
+  - [19]. [分号](#semicons)
 
 <a name="types"></a>
 ## 类型
@@ -63,8 +61,8 @@
     console.log(foo[0], bar[0]); // => 9, 9
     ```
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="references"></a>
 ## 引用
 
   <a name="references--prefer-const"></a><a name="2.1"></a>
@@ -110,8 +108,8 @@
     console.log(b); // ReferenceError
     ```
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="objects"></a>
 ## 对象
 
   <a name="objects--no-new"></a><a name="3.1"></a>
@@ -254,8 +252,8 @@
     const { a, ...noA } = copy; // noA => { b: 2, c: 3 }
     ```
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="arrays"></a>
 ## 数组
 
   <a name="arrays--literals"></a><a name="4.1"></a>
@@ -388,8 +386,8 @@
     ];
     ```
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="destructuring"></a>
 ## 解构赋值
 
   <a name="destructuring--object"></a><a name="5.1"></a>
@@ -455,8 +453,8 @@
     const { left, top } = processInput(input);
     ```
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="strings"></a>
 ## 字符串
 
   <a name="strings--quotes"></a><a name="6.1"></a>
@@ -519,8 +517,8 @@
     }
     ```
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="functions"></a>
 ## 函数
 
   <a name="functions--declarations"></a><a name="7.1"></a>
@@ -741,8 +739,8 @@
     ```
     <a name="functions--signature-invocation-indentation"></a>
 
-**[⬆ back to top](#language-guide)**
-
+**[⬆ back to top](#table-contents)**
+<a name="arrow-functions"></a>
 ## 箭头函数
 
   <a name="arrows--use-them"></a><a name="8.1"></a>
@@ -892,7 +890,7 @@
     ```
 
     **[⬆ back to top](#table-of-contents)**
-
+<a name="constructors"></a>
 ## 类 & 构造函数
 
   <a name="constructors--use-class"></a><a name="9.1"></a>
@@ -974,7 +972,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="modules"></a>
 ## 模块
 
   <a name="modules--use-them"></a><a name="10.1"></a>
@@ -1069,13 +1067,13 @@
 
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="iterators-and-generators"></a>
 ## Iterators and Generators
 
   <a name="iterators--nope"></a><a name="11.1"></a>
   - [11.1](#iterators--nope) 不要使用遍历器。使用JavaScript的高级函数而非 `for-in` 和 `for-of`等循环。 eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
 
-    > Why? 这强化了不可变的原则， 有返回值的纯函数必有副作用的更易于处理。
+    > Why? 这强化了不可变的原则，有返回值的纯函数必有副作用的更易于处理。
 
     > 使用 `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... 遍历数组, 使用 `Object.keys()` / `Object.values()` / `Object.entries()` 获得数组以遍历对象。
 
@@ -1178,7 +1176,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="properties"></a>
 ## 对象属性
 
   <a name="properties--dot"></a><a name="12.1"></a>
@@ -1214,7 +1212,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="variables"></a>
 ## 变量
 
   <a name="variables--const"></a><a name="13.1"></a>
@@ -1439,7 +1437,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="hoisting"></a>
 ## Hoisting
 
   <a name="hoisting--about"></a><a name="14.1"></a>
@@ -1537,7 +1535,7 @@
 
     **[⬆ back to top](#table-of-contents)**
 
-
+<a name="comparison-operators--equality"></a>
 ## Comparison Operators & Equality
 
   <a name="comparison--eqeqeq"></a><a name="15.1"></a>
@@ -1694,7 +1692,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="blocks"></a>
 ## Blocks
 
   <a name="blocks--braces"></a><a name="16.1"></a>
@@ -1810,7 +1808,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="whitespace"></a>
 ## 空格
 
   <a name="whitespace--spaces"></a><a name="17.1"></a>
@@ -2058,7 +2056,7 @@
   - [17.14](#whitespace--no-trailing-spaces) 禁止在一行的末尾使用拖尾空格。 eslint: [`no-trailing-spaces`](https://eslint.org/docs/rules/no-trailing-spaces)
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="commas"></a>
 ## 逗号
 
   <a name="commas--leading-trailing"></a><a name="18.1"></a>
@@ -2193,7 +2191,7 @@
     ```
 
 **[⬆ back to top](#table-of-contents)**
-
+<a name="semicolons"></a>
 ## 分号
 
   <a name="semicolons--required"></a><a name="19.1"></a>
