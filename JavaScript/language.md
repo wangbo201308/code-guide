@@ -1,6 +1,6 @@
 
 # 语言规范
-<a name="tabel-contents"></a>
+<a name="table-contents"></a>
 ## 目录
   - [1]. [类型](#types)
   - [2]. [引用](#references)
