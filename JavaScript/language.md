@@ -2,6 +2,29 @@
 
 # 语言规范
 
+## 目录
+
+  [1]. [类型](#types)
+  [2]. [引用](#references)
+  [3]. [对象](#objects)
+  [4]. [数组](#arrays)
+  [5]. [解构赋值](#destructuring)
+  [6]. [字符串](#strings)
+  [7 ]. [函数](#functions)
+  [8]. [箭头函数](#arrow-functions)
+  [9]. [类 & 构造函数](#classes--constructors)
+  [10]. [模块](#modules)
+  [11]. [Iterators and Generators](#iterators-and-generators)
+  [12]. [对象属性](#properties)
+  [13]. [变量](#variables)
+  [14]. [Hoisting](#hoisting)
+  [15]. [Comparison Operators & Equality](#comparison-operators--equality)
+  [16]. [Blocks](#blocks)
+  [17]. [空格](#whitespace)
+  [18]. [逗号](#commas)
+  [18]. [分号](#semicons)
+
+<a name="types"></a>
 ## 类型
 
   - [1.1](#types--primitives) **基本类型**:
@@ -1417,10 +1440,10 @@
 
 **[⬆ back to top](#table-of-contents)**
 
-## Hoisting111
+## Hoisting
 
   <a name="hoisting--about"></a><a name="14.1"></a>
-  - [14.1](#hoisting--about) `var` declarations get hoisted to the top of their closest enclosing function scope, their assignment does not. `const` and `let` declarations are blessed with a new concept called [Temporal Dead Zones (TDZ)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_Dead_Zone). It’s important to know why [typeof is no longer safe](http://es-discourse.com/t/why-typeof-is-no-longer-safe/15).
+  - [14.1](#hoisting--about) `var` 存在变量提升的情况,  即 `var` 会被提升至该作用域的顶部， 但是他们的赋值不会。 `const` 和 `let` 并不存在这种情况，他们被赋予了 [Temporal Dead Zones (TDZ)](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#Temporal_Dead_Zone)。
 
     ```javascript
     // we know this wouldn’t work (assuming there
@@ -1428,7 +1451,7 @@
     function example() {
       console.log(notDefined); // => throws a ReferenceError
     }
-
+    
     // creating a variable declaration after you
     // reference the variable will work due to
     // variable hoisting. Note: the assignment
@@ -1437,7 +1460,7 @@
       console.log(declaredButNotAssigned); // => undefined
       var declaredButNotAssigned = true;
     }
-
+    
     // the interpreter is hoisting the variable
     // declaration to the top of the scope,
     // which means our example could be rewritten as:
@@ -1446,7 +1469,7 @@
       console.log(declaredButNotAssigned); // => undefined
       declaredButNotAssigned = true;
     }
-
+    
     // using const and let
     function example() {
       console.log(declaredButNotAssigned); // => throws a ReferenceError
@@ -1456,7 +1479,7 @@
     ```
 
   <a name="hoisting--anon-expressions"></a><a name="14.2"></a>
-  - [14.2](#hoisting--anon-expressions) Anonymous function expressions hoist their variable name, but not the function assignment.
+  - [14.2](#hoisting--anon-expressions) 匿名函数的变量名会提升，但是函数内容不会。
 
     ```javascript
     function example() {
@@ -1471,7 +1494,7 @@
     ```
 
   <a name="hoisting--named-expresions"></a><a name="hoisting--named-expressions"></a><a name="14.3"></a>
-  - [14.3](#hoisting--named-expressions) Named function expressions hoist the variable name, not the function name or the function body.
+  - [14.3](#hoisting--named-expressions) 命名函数的变量名会提升, 但函数名和函数体不会。
 
     ```javascript
     function example() {
@@ -1500,46 +1523,28 @@
     ```
 
   <a name="hoisting--declarations"></a><a name="14.4"></a>
-  - [14.4](#hoisting--declarations) Function declarations hoist their name and the function body.
+  - [14.4](#hoisting--declarations) 函数声明会提升他们的函数名和函数体。
 
     ```javascript
     function example() {
       superPower(); // => Flying
-
+    
       function superPower() {
         console.log('Flying');
       }
     }
     ```
 
-  - For more information refer to [JavaScript Scoping & Hoisting](http://www.adequatelygood.com/2010/2/JavaScript-Scoping-and-Hoisting/) by [Ben Cherry](http://www.adequatelygood.com/).
+    **[⬆ back to top](#table-of-contents)**
 
-**[⬆ back to top](#table-of-contents)**
 
 ## Comparison Operators & Equality
 
   <a name="comparison--eqeqeq"></a><a name="15.1"></a>
-  - [15.1](#comparison--eqeqeq) Use `===` and `!==` over `==` and `!=`. eslint: [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq.html)
+  - [15.1](#comparison--eqeqeq) 使用 `===` 和 `!==` 而不是 `==` and `!=`. eslint: [`eqeqeq`](https://eslint.org/docs/rules/eqeqeq.html)
 
-  <a name="comparison--if"></a><a name="15.2"></a>
-  - [15.2](#comparison--if) Conditional statements such as the `if` statement evaluate their expression using coercion with the `ToBoolean` abstract method and always follow these simple rules:
-
-    - **Objects** evaluate to **true**
-    - **Undefined** evaluates to **false**
-    - **Null** evaluates to **false**
-    - **Booleans** evaluate to **the value of the boolean**
-    - **Numbers** evaluate to **false** if **+0, -0, or NaN**, otherwise **true**
-    - **Strings** evaluate to **false** if an empty string `''`, otherwise **true**
-
-    ```javascript
-    if ([0] && []) {
-      // true
-      // an array (even an empty one) is an object, objects will evaluate to true
-    }
-    ```
-
-  <a name="comparison--shortcuts"></a><a name="15.3"></a>
-  - [15.3](#comparison--shortcuts) Use shortcuts for booleans, but explicit comparisons for strings and numbers.
+  <a name="comparison--shortcuts"></a><a name="15.2"></a>
+  - [15.2](#comparison--shortcuts) 对于布尔类型的比较使用简写, 而字符串和数字需明确比较对象。
 
     ```javascript
     // bad
@@ -1573,13 +1578,10 @@
     }
     ```
 
-  <a name="comparison--moreinfo"></a><a name="15.4"></a>
-  - [15.4](#comparison--moreinfo) For more information see [Truth Equality and JavaScript](https://javascriptweblog.wordpress.com/2011/02/07/truth-equality-and-javascript/#more-2108) by Angus Croll.
+  <a name="comparison--switch-blocks"></a><a name="15.3"></a>
+  - [15.3](#comparison--switch-blocks) 在 `case` 和 `default` 等包含词法声明（例如 `let`, `const`, `function` 和 `class`）的语句中，使用花括号创建块。 eslint: [`no-case-declarations`](https://eslint.org/docs/rules/no-case-declarations.html)
 
-  <a name="comparison--switch-blocks"></a><a name="15.5"></a>
-  - [15.5](#comparison--switch-blocks) Use braces to create blocks in `case` and `default` clauses that contain lexical declarations (e.g. `let`, `const`, `function`, and `class`). eslint: [`no-case-declarations`](https://eslint.org/docs/rules/no-case-declarations.html)
-
-    > Why? Lexical declarations are visible in the entire `switch` block but only get initialized when assigned, which only happens when its `case` is reached. This causes problems when multiple `case` clauses attempt to define the same thing.
+    > Why? 虽然词法声明在整个`switch` 块中可见，但只会在赋值时被初始化，而这只有当运行到其所在的 `case` 语句时才会发生。当多个 `case` 语句试图定义同一个变量是会导致问题。
 
     ```javascript
     // bad
@@ -1624,8 +1626,8 @@
     }
     ```
 
-  <a name="comparison--nested-ternaries"></a><a name="15.6"></a>
-  - [15.6](#comparison--nested-ternaries) Ternaries should not be nested and generally be single line expressions. eslint: [`no-nested-ternary`](https://eslint.org/docs/rules/no-nested-ternary.html)
+  <a name="comparison--nested-ternaries"></a><a name="15.4"></a>
+  - [15.4](#comparison--nested-ternaries) 三元运算符不应该嵌套，而且一般为单行表达式。 eslint: [`no-nested-ternary`](https://eslint.org/docs/rules/no-nested-ternary.html)
 
     ```javascript
     // bad
@@ -1645,8 +1647,8 @@
     const foo = maybe1 > maybe2 ? 'bar' : maybeNull;
     ```
 
-  <a name="comparison--unneeded-ternary"></a><a name="15.7"></a>
-  - [15.7](#comparison--unneeded-ternary) Avoid unneeded ternary statements. eslint: [`no-unneeded-ternary`](https://eslint.org/docs/rules/no-unneeded-ternary.html)
+  <a name="comparison--unneeded-ternary"></a><a name="15.4"></a>
+  - [15.4](#comparison--unneeded-ternary) 避免不必要的三元表达式。eslint: [`no-unneeded-ternary`](https://eslint.org/docs/rules/no-unneeded-ternary.html)
 
     ```javascript
     // bad
@@ -1660,10 +1662,8 @@
     const baz = !c;
     ```
 
-  <a name="comparison--no-mixed-operators"></a>
-  - [15.8](#comparison--no-mixed-operators) When mixing operators, enclose them in parentheses. The only exception is the standard arithmetic operators (`+`, `-`, `*`, & `/`) since their precedence is broadly understood. eslint: [`no-mixed-operators`](https://eslint.org/docs/rules/no-mixed-operators.html)
-
-    > Why? This improves readability and clarifies the developer’s intention.
+  <a name="comparison--no-mixed-operators"><a name="15.5"></></a>
+  - [15.5](#comparison--no-mixed-operators) 当有多个运算符时，用圆括号将其括起来。唯一的例外是标准的算数运算符 (`+`, `-`, `*`, & `/`) ，因为它们的优先级众所周知。 eslint: [`no-mixed-operators`](https://eslint.org/docs/rules/no-mixed-operators.html)
 
     ```javascript
     // bad
@@ -1698,7 +1698,7 @@
 ## Blocks
 
   <a name="blocks--braces"></a><a name="16.1"></a>
-  - [16.1](#blocks--braces) Use braces with all multi-line blocks. eslint: [`nonblock-statement-body-position`](https://eslint.org/docs/rules/nonblock-statement-body-position)
+  - [16.1](#blocks--braces) 对于所有的代码块使用花括号。eslint: [`nonblock-statement-body-position`](https://eslint.org/docs/rules/nonblock-statement-body-position)
 
     ```javascript
     // bad
@@ -1723,7 +1723,7 @@
     ```
 
   <a name="blocks--cuddled-elses"></a><a name="16.2"></a>
-  - [16.2](#blocks--cuddled-elses) If you’re using multi-line blocks with `if` and `else`, put `else` on the same line as your `if` block’s closing brace. eslint: [`brace-style`](https://eslint.org/docs/rules/brace-style.html)
+  - [16.2](#blocks--cuddled-elses) 如果使用到含 `if` 和 `else`的多行代码块，将 `else` 置于 `if` 代码块的反花括号（`}`）的同一行。 eslint: [`brace-style`](https://eslint.org/docs/rules/brace-style.html)
 
     ```javascript
     // bad
@@ -1745,7 +1745,7 @@
     ```
 
   <a name="blocks--no-else-return"></a><a name="16.3"></a>
-  - [16.3](#blocks--no-else-return) If an `if` block always executes a `return` statement, the subsequent `else` block is unnecessary. A `return` in an `else if` block following an `if` block that contains a `return` can be separated into multiple `if` blocks. eslint: [`no-else-return`](https://eslint.org/docs/rules/no-else-return)
+  - [16.3](#blocks--no-else-return) 如果一个 `if` 代码中总是会执行 一个 `return` 语句，那么其后的 `else` 代码块是没有必要的。跟在一个含有 `return` 语句的 `if` 代码块后的 `else if` 中的  `return` 可以被分成多个 `if` 代码块。 eslint: [`no-else-return`](https://eslint.org/docs/rules/no-else-return)
 
     ```javascript
     // bad
@@ -1811,72 +1811,432 @@
 
 **[⬆ back to top](#table-of-contents)**
 
-## Control Statements
+## 空格
 
-  <a name="control-statements"></a>
-  - [17.1](#control-statements) In case your control statement (`if`, `while` etc.) gets too long or exceeds the maximum line length, each (grouped) condition could be put into a new line. The logical operator should begin the line.
-
-    > Why? Requiring operators at the beginning of the line keeps the operators aligned and follows a pattern similar to method chaining. This also improves readability by making it easier to visually follow complex logic.
+  <a name="whitespace--spaces"></a><a name="17.1"></a>
+  - [17.1](#whitespace--spaces) `tab` 设置为2个空格。 eslint: [`indent`](https://eslint.org/docs/rules/indent.html)
 
     ```javascript
     // bad
-    if ((foo === 123 || bar === 'abc') && doesItLookGoodWhenItBecomesThatLong() && isThisReallyHappening()) {
-      thing1();
+    function foo() {
+    ∙∙∙∙let name;
     }
 
     // bad
-    if (foo === 123 &&
-      bar === 'abc') {
-      thing1();
-    }
-
-    // bad
-    if (foo === 123
-      && bar === 'abc') {
-      thing1();
-    }
-
-    // bad
-    if (
-      foo === 123 &&
-      bar === 'abc'
-    ) {
-      thing1();
+    function bar() {
+    ∙let name;
     }
 
     // good
-    if (
-      foo === 123
-      && bar === 'abc'
-    ) {
-      thing1();
-    }
-
-    // good
-    if (
-      (foo === 123 || bar === 'abc')
-      && doesItLookGoodWhenItBecomesThatLong()
-      && isThisReallyHappening()
-    ) {
-      thing1();
-    }
-
-    // good
-    if (foo === 123 && bar === 'abc') {
-      thing1();
+    function baz() {
+    ∙∙let name;
     }
     ```
 
-  <a name="control-statement--value-selection"></a><a name="control-statements--value-selection"></a>
-  - [17.2](#control-statements--value-selection) Don't use selection operators in place of control statements.
+  <a name="whitespace--before-blocks"></a><a name="17.2"></a>
+  - [17.2](#whitespace--before-blocks) 最开始的花括号前空一个空格。eslint: [`space-before-blocks`](https://eslint.org/docs/rules/space-before-blocks.html)
 
     ```javascript
     // bad
-    !isRunning && startRunning();
+    function test(){
+      console.log('test');
+    }
 
     // good
-    if (!isRunning) {
-      startRunning();
+    function test() {
+      console.log('test');
+    }
+
+    // bad
+    dog.set('attr',{
+      age: '1 year',
+      breed: 'Bernese Mountain Dog',
+    });
+
+    // good
+    dog.set('attr', {
+      age: '1 year',
+      breed: 'Bernese Mountain Dog',
+    });
+    ```
+
+  <a name="whitespace--around-keywords"></a><a name="17.3"></a>
+  - [17.3](#whitespace--around-keywords) 在控制语句的圆括号前空一个空格。 (`if`, `while` 等)。在函数调用和函数声明的函数名和参数列表之间不空格。eslint: [`keyword-spacing`](https://eslint.org/docs/rules/keyword-spacing.html)
+
+    ```javascript
+    // bad
+    if(isJedi) {
+      fight ();
+    }
+
+    // good
+    if (isJedi) {
+      fight();
+    }
+
+    // bad
+    function fight () {
+      console.log ('Swooosh!');
+    }
+
+    // good
+    function fight() {
+      console.log('Swooosh!');
+    }
+    ```
+
+  <a name="whitespace--infix-ops"></a><a name="17.4"></a>
+  - [17.4](#whitespace--infix-ops) 运算符之间使用空格隔开。 eslint: [`space-infix-ops`](https://eslint.org/docs/rules/space-infix-ops.html)
+
+    ```javascript
+    // bad
+    const x=y+5;
+
+    // good
+    const x = y + 5;
+    ```
+    <a name="whitespace--padded-blocks"></a><a name="17.5"></a>
+  - [17.5](#whitespace--padded-blocks) 不要再代码块中使用空行。 eslint: [`padded-blocks`](https://eslint.org/docs/rules/padded-blocks.html)
+
+    ```javascript
+    // bad
+    function bar() {
+
+      console.log(foo);
+
+    }
+
+    // bad
+    if (baz) {
+
+      console.log(qux);
+    } else {
+      console.log(foo);
+
+    }
+
+    // bad
+    class Foo {
+
+      constructor(bar) {
+        this.bar = bar;
+      }
+    }
+
+    // good
+    function bar() {
+      console.log(foo);
+    }
+
+    // good
+    if (baz) {
+      console.log(qux);
+    } else {
+      console.log(foo);
+    }
+    ```
+
+  <a name="whitespace--in-parens"></a><a name="17.6"></a>
+  - [17.6](#whitespace--in-parens) 不要在圆括号里面使用空格。 eslint: [`space-in-parens`](https://eslint.org/docs/rules/space-in-parens.html)
+
+    ```javascript
+    // bad
+    function bar( foo ) {
+      return foo;
+    }
+
+    // good
+    function bar(foo) {
+      return foo;
+    }
+
+    // bad
+    if ( foo ) {
+      console.log(foo);
+    }
+
+    // good
+    if (foo) {
+      console.log(foo);
+    }
+    ```
+
+  <a name="whitespace--in-brackets"></a><a name="17.7"></a>
+  - [17.7](#whitespace--in-brackets) 不要在中括号里面使用空格。eslint: [`array-bracket-spacing`](https://eslint.org/docs/rules/array-bracket-spacing.html)
+
+    ```javascript
+    // bad
+    const foo = [ 1, 2, 3 ];
+    console.log(foo[ 0 ]);
+
+    // good
+    const foo = [1, 2, 3];
+    console.log(foo[0]);
+    ```
+
+  <a name="whitespace--in-braces"></a><a name="17.8"></a>
+  - [17.8](#whitespace--in-braces) 在花括号中使用空格。 eslint: [`object-curly-spacing`](https://eslint.org/docs/rules/object-curly-spacing.html)
+
+    ```javascript
+    // bad
+    const foo = {clark: 'kent'};
+
+    // good
+    const foo = { clark: 'kent' };
+    ```
+
+  <a name="whitespace--block-spacing"></a>
+  - [17.9](#whitespace--block-spacing) 所有的 `{` 和 `}` 应保持相同的空格数。 eslint: [`block-spacing`](https://eslint.org/docs/rules/block-spacing)
+
+    ```javascript
+    // bad
+    function foo() {return true;}
+    if (foo) { bar = 0;}
+
+    // good
+    function foo() { return true; }
+    if (foo) { bar = 0; }
+    ```
+
+  <a name="whitespace--comma-spacing"></a>
+  - [17.10](#whitespace--comma-spacing) 在逗号后空格，不要在逗号前空格。 eslint: [`comma-spacing`](https://eslint.org/docs/rules/comma-spacing)
+
+    ```javascript
+    // bad
+    var foo = 1,bar = 2;
+    var arr = [1 , 2];
+
+    // good
+    var foo = 1, bar = 2;
+    var arr = [1, 2];
+    ```
+
+  <a name="whitespace--computed-property-spacing"></a>
+  - [17.11](#whitespace--computed-property-spacing) 在计算属性的中括号中强制使用空格。eslint: [`computed-property-spacing`](https://eslint.org/docs/rules/computed-property-spacing)
+
+    ```javascript
+    // bad
+    obj[foo ]
+    obj[ 'foo']
+    var x = {[ b ]: a}
+    obj[foo[ bar ]]
+
+    // good
+    obj[foo]
+    obj['foo']
+    var x = { [b]: a }
+    obj[foo[bar]]
+    ```
+
+  <a name="whitespace--func-call-spacing"></a>
+  - [17.12](#whitespace--func-call-spacing) 在函数和函数调用之间不要空格。 eslint: [`func-call-spacing`](https://eslint.org/docs/rules/func-call-spacing)
+
+    ```javascript
+    // bad
+    func ();
+
+    func
+    ();
+
+    // good
+    func();
+    ```
+
+  <a name="whitespace--key-spacing"></a>
+  - [17.13](#whitespace--key-spacing) 在对象的字面量属性中，在键和值之间强制空格。 eslint: [`key-spacing`](https://eslint.org/docs/rules/key-spacing)
+
+    ```javascript
+    // bad
+    var obj = { "foo" : 42 };
+    var obj2 = { "foo":42 };
+
+    // good
+    var obj = { "foo": 42 };
+    ```
+
+  <a name="whitespace--no-trailing-spaces"></a>
+  - [17.14](#whitespace--no-trailing-spaces) 禁止在一行的末尾使用拖尾空格。 eslint: [`no-trailing-spaces`](https://eslint.org/docs/rules/no-trailing-spaces)
+
+**[⬆ back to top](#table-of-contents)**
+
+## 逗号
+
+  <a name="commas--leading-trailing"></a><a name="18.1"></a>
+  - [18.1](#commas--leading-trailing) 不要使用前置逗号。eslint: [`comma-style`](https://eslint.org/docs/rules/comma-style.html)
+
+    ```javascript
+    // bad
+    const story = [
+        once
+      , upon
+      , aTime
+    ];
+
+    // good
+    const story = [
+      once,
+      upon,
+      aTime,
+    ];
+
+    // bad
+    const hero = {
+        firstName: 'Ada'
+      , lastName: 'Lovelace'
+      , birthYear: 1815
+      , superPower: 'computers'
+    };
+
+    // good
+    const hero = {
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      birthYear: 1815,
+      superPower: 'computers',
+    };
+    ```
+
+  <a name="commas--dangling"></a><a name="18.2"></a>
+  - [18.2](#commas--dangling) 请使用额外的拖尾逗号。eslint: [`comma-dangle`](https://eslint.org/docs/rules/comma-dangle.html)
+
+    > Why? 这样可以简化git的diff过程。而且例如Babel这种编辑器，在编译后的代码中会移除多余的拖尾逗号，这也意味着不用担心传统浏览器中的[拖尾逗号问题](https://github.com/airbnb/javascript/blob/es5-deprecated/es5/README.md#commas)
+
+    ```diff
+    // bad - git diff without trailing comma
+    const hero = {
+         firstName: 'Florence',
+    -    lastName: 'Nightingale'
+    +    lastName: 'Nightingale',
+    +    inventorOf: ['coxcomb chart', 'modern nursing']
+    };
+
+    // good - git diff with trailing comma
+    const hero = {
+         firstName: 'Florence',
+         lastName: 'Nightingale',
+    +    inventorOf: ['coxcomb chart', 'modern nursing'],
+    };
+    ```
+
+    ```javascript
+    // bad
+    const hero = {
+      firstName: 'Dana',
+      lastName: 'Scully'
+    };
+
+    const heroes = [
+      'Batman',
+      'Superman'
+    ];
+
+    // good
+    const hero = {
+      firstName: 'Dana',
+      lastName: 'Scully',
+    };
+
+    const heroes = [
+      'Batman',
+      'Superman',
+    ];
+
+    // bad
+    function createHero(
+      firstName,
+      lastName,
+      inventorOf
+    ) {
+      // does nothing
+    }
+
+    // good
+    function createHero(
+      firstName,
+      lastName,
+      inventorOf,
+    ) {
+      // does nothing
+    }
+
+    // good (note that a comma must not appear after a "rest" element)
+    function createHero(
+      firstName,
+      lastName,
+      inventorOf,
+      ...heroArgs
+    ) {
+      // does nothing
+    }
+
+    // bad
+    createHero(
+      firstName,
+      lastName,
+      inventorOf
+    );
+
+    // good
+    createHero(
+      firstName,
+      lastName,
+      inventorOf,
+    );
+
+    // good (note that a comma must not appear after a "rest" element)
+    createHero(
+      firstName,
+      lastName,
+      inventorOf,
+      ...heroArgs
+    );
+    ```
+
+**[⬆ back to top](#table-of-contents)**
+
+## 分号
+
+  <a name="semicolons--required"></a><a name="19.1"></a>
+  - [19.1](#semicolons--required) 使用分号。 eslint: [`semi`](https://eslint.org/docs/rules/semi.html)
+
+    > Why? 当JavaScript遇到没有分号的一行时，它会使用一系列叫做[Automatic Semicolon Insertion](https://tc39.github.io/ecma262/#sec-automatic-semicolon-insertion) 的规则判断它是否应该将换行符当做一段语句的结束。如果判断是的话它会在换行符前插入分号。 ASI有一些古怪的行为，如果JavaScript错误地编译了换行符，会导致代码崩溃。如果新的特性成为JavaScript的一部分，这些规则将会变得更加复杂。显式地使用分号结束语句并且配置lint规则捕获未加的分号会避免一些问题。
+
+    ```javascript
+    // bad - raises exception
+    const luke = {}
+    const leia = {}
+    [luke, leia].forEach(jedi => jedi.father = 'vader')
+
+    // bad - raises exception
+    const reaction = "No! That’s impossible!"
+    (async function meanwhileOnTheFalcon() {
+      // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
+      // ...
+    }())
+
+    // bad - returns `undefined` instead of the value on the next line - always happens when `return` is on a line by itself because of ASI!
+    function foo() {
+      return
+        'search your feelings, you know it to be foo'
+    }
+
+    // good
+    const luke = {};
+    const leia = {};
+    [luke, leia].forEach((jedi) => {
+      jedi.father = 'vader';
+    });
+
+    // good
+    const reaction = "No! That’s impossible!";
+    (async function meanwhileOnTheFalcon() {
+      // handle `leia`, `lando`, `chewie`, `r2`, `c3p0`
+      // ...
+    }());
+
+    // good
+    function foo() {
+      return 'search your feelings, you know it to be foo';
     }
     ```
 
