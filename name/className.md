@@ -1,7 +1,7 @@
 # ClassName命名
 
 
-ClassName的命名应该尽量精短、明确，必须以**字母开头命名**，且**全部字母为小写**，单词之间**统一使用下划线** “_” 连接
+ClassName的命名应该尽量精短、明确，必须以**字母开头命名**，且**全部字母为小写**，单词之间**统一使用下划线** “_” 连接。
 
 ## 命名原则 
 
@@ -9,7 +9,7 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 
 ![enter image description here](http://labs.qiang.it/ppguide/img/standard_jiapu.png)
 
-祖先模块不能出现下划线，除了是全站公用模块，如 `mod_` 系列的命名：
+祖先模块不能出现下划线：
 
 **推荐：**
 
@@ -20,13 +20,6 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 		<div class="modulename_son"></div>
 		...
 	</div>
-</div>
-	
-<!-- 这个是全站公用模块，祖先模块允许直接出现下划线 -->
-<div class="mod_info">
-	<div class="mod_info_son"></div>
-	<div class="mod_info_son"></div>
-	...		
 </div>
 ```
 
@@ -105,33 +98,20 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 ```html
 <div class="ad"></div>
 ```
+这种广告的英文或拼音类名不应该出现。
 
-这种广告的英文或拼音类名不应该出现
-
-另外，**敏感不和谐字眼**也不应该出现，如：
-
-```html
-<div class="fuck"></div>
-<div class="jer"></div>
-<div class="sm"></div>
-<div class="gcd"></div> 
-<div class="ass"></div> 
-<div class="KMT"></div> 
-...
-```
+常用命名推荐如下：
 
 | ClassName | 含义 |
 | ------------ | ------------- |
 | about | 关于 |
 | account | 账户 |
 | arrow | 箭头图标 |
-| article | 文章 |
 | aside | 边栏 |
-| audio | 音频 |
 | avatar | 头像 |
 | bg,background | 背景 |
 | bar | 栏（工具类）|
-| branding | 品牌化 |
+| brand | 品牌 |
 | crumb,breadcrumbs | 面包屑 |
 | btn,button | 按钮 |
 | caption | 标题，说明 |
@@ -141,16 +121,13 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 | close | 关闭 |
 | col,column | 列 |
 | comment | 评论 |
-| community | 社区 |
 | container | 容器 |
 | content | 内容 |
-| copyright | 版权 |
 | current | 当前态，选中态 |
 | default | 默认 |
 | description | 描述 |
 | details | 细节 |
 | disabled | 不可用 |
-| entry | 文章，博文 |
 | error | 错误 |
 | even | 偶数，常用于多行列表或表格中 |
 | fail | 失败（提示） |
@@ -160,11 +137,10 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 | figure | 图 |
 | filter | 筛选 |
 | first | 第一个，常用于列表中 |
+| header | 页眉 |
 | footer | 页脚 |
-| forum | 论坛 |
 | gallery | 画廊 |
 | group | 模块，清除浮动 |
-| header | 页头 |
 | help | 帮助 |
 | hide | 隐藏 |
 | hightlight | 高亮 |
@@ -178,13 +154,11 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 | logo | 标志 |
 | main | 主体 |
 | menu | 菜单 |
-| meta | 作者、更新时间等信息栏，一般位于标题之下 |
 | module | 模块 |
 | more | 更多（展开） |
 | msg,message | 消息 |
 | nav,navigation | 导航 |
 | next | 下一页 |
-| nub | 小块 |
 | odd | 奇数，常用于多行列表或表格中 |
 | off | 鼠标离开 |
 | on | 鼠标移过 |
@@ -221,7 +195,6 @@ ClassName的命名应该尽量精短、明确，必须以**字母开头命名**�
 | time | 时间 |
 | tips | 提示 |
 | title | 标题 |
-| video | 视频 |
 | wrap | 容器，包，一般用于最外层 |
 | wrapper | 容器，包，一般用于最外层 |
 
