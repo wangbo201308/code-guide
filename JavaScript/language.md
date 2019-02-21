@@ -395,7 +395,7 @@
   <a name="destructuring--object"></a><a name="5.1"></a>
   - [5.1](#destructuring--object) 获取或使用对象的多个属性时使用对象的解构赋值。 eslint: [`prefer-destructuring`](https://eslint.org/docs/rules/prefer-destructuring)
 
-    > Why? 解构赋值可以避免为这些属性创建临时遍量。
+    > Why? 解构赋值可以避免为这些属性创建临时变量。
 
     ```javascript
     // bad
@@ -1022,7 +1022,6 @@
   <a name="modules--prefer-default-export"></a>
   - [10.4](#modules--prefer-default-export) 在单一导出的模块中，使用 `default export` 比命名导出更好。
  eslint: [`import/prefer-default-export`](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/prefer-default-export.md)
-    > Why? To encourage more files that only ever export one thing, which is better for readability and maintainability.
 
     ```javascript
     // bad
@@ -1075,7 +1074,7 @@
   <a name="iterators--nope"></a><a name="11.1"></a>
   - [11.1](#iterators--nope) 不要使用遍历器。使用JavaScript的高级函数而非 `for-in` 和 `for-of`等循环。 eslint: [`no-iterator`](https://eslint.org/docs/rules/no-iterator.html) [`no-restricted-syntax`](https://eslint.org/docs/rules/no-restricted-syntax)
 
-    > Why? 这强化了不可变的原则，有返回值的纯函数必有副作用的更易于处理。
+    > Why? 这强化了不可变的原则，有返回值的纯函数比有副作用的更易于处理。
 
     > 使用 `map()` / `every()` / `filter()` / `find()` / `findIndex()` / `reduce()` / `some()` / ... 遍历数组, 使用 `Object.keys()` / `Object.values()` / `Object.entries()` 获得数组以遍历对象。
 
@@ -1579,7 +1578,7 @@
     ```
 
   <a name="comparison--switch-blocks"></a><a name="15.3"></a>
-  - [15.3](#comparison--switch-blocks) 在 `case` 和 `default` 等包含词法声明（例如 `let`, `const`, `function` 和 `class`）的语句中，使用花括号创建块。 eslint: [`no-case-declarations`](https://eslint.org/docs/rules/no-case-declarations.html)
+  - [15.3](#comparison--switch-blocks) 在 `case` 和 `default` 等包含词法声明（例如 `let`, `const`, `function` 和 `class`）的语句中，使用花括号创建代码块。 eslint: [`no-case-declarations`](https://eslint.org/docs/rules/no-case-declarations.html)
 
     > Why? 虽然词法声明在整个`switch` 块中可见，但只会在赋值时被初始化，而这只有当运行到其所在的 `case` 语句时才会发生。当多个 `case` 语句试图定义同一个变量是会导致问题。
 
@@ -1662,7 +1661,7 @@
     const baz = !c;
     ```
 
-  <a name="comparison--no-mixed-operators"><a name="15.5"></></a>
+  <a name="comparison--no-mixed-operators"><a/><a name="15.5"></a>
   - [15.5](#comparison--no-mixed-operators) 当有多个运算符时，用圆括号将其括起来。唯一的例外是标准的算数运算符 (`+`, `-`, `*`, & `/`) ，因为它们的优先级众所周知。 eslint: [`no-mixed-operators`](https://eslint.org/docs/rules/no-mixed-operators.html)
 
     ```javascript
