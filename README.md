@@ -30,5 +30,25 @@
 
 统一团队的 JS 语法风格和书写习惯，减少程序出错的概率，其中也包含了 ES6 的语法规范和最佳实践。
 
+##  路线图
+```flow
+start=>start: 初稿
+discuss=>operation: 小组讨论
+passedOrNot=>condition: 讨论通过？
+passed=>operation: Version 1.0
+notPassed=>operation: 修改
+modifyCode=>operation: 存量代码改造
+codeCheck=>operation: 配置prettier、eslint、husky
+furtherPlan=>operation: 编写HTML规范、CSS规范等
+end=>end: 结束
+
+start->discuss->passedOrNot
+passedOrNot(yes)->passed->modifyCode->codeCheck->furtherPlan->end
+passedOrNot(no)->notPassed->discuss
+
+
+
+```
+
 
 
