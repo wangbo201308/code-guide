@@ -65,6 +65,7 @@
 
 **[⬆ back to top](#table-contents)**
 <a name="references"></a>
+
 ## 引用
 
   <a name="references--prefer-const"></a><a name="2.1"></a>
@@ -1895,7 +1896,7 @@
     const x = y + 5;
     ```
     <a name="whitespace--padded-blocks"></a><a name="17.5"></a>
-  - [17.5](#whitespace--padded-blocks) 不要再代码块中使用空行。 eslint: [`padded-blocks`](https://eslint.org/docs/rules/padded-blocks.html)
+  - [17.5](#whitespace--padded-blocks) 不要在代码块中使用空行。 eslint: [`padded-blocks`](https://eslint.org/docs/rules/padded-blocks.html)
 
     ```javascript
     // bad

@@ -25,32 +25,64 @@
     }
   },
   "rules": {
-    "prefer-const": 2,
-    "no-const-assign": 2,
-    "no-var": 2,
-    "object-shorthand": 1,
-    "quote-props": 2,
-    "indent": [2, 2, { "SwitchCase": 1 }],    // 规定代码的缩进方式：2个空格
-    "camelcase": 2,                           //强制驼峰法命名
-    "curly": 2,                               //必须使用 if(){} 中的{}
-    "eqeqeq": 2,                              //必须使用全等
-    "brace-style": [2, "1tbs"],               //大括号风格
-    "quotes": [2, "single"],                  //引号类型
-    "semi": [2, "always"],                    //语句强制分号结尾
-    "space-infix-ops": 2,                     //中缀操作符周围要不要有空格
-    "no-param-reassign": 0,                   //不允许对函数的形参进行赋值
-    "prefer-spread": 2,                       //首选展开运算
-    "comma-dangle": 0,                        //不允许或强制在对象字面量或者数组属性的结尾使用逗号
-    "padded-blocks": 0,                       //规定代码块前后是否要加空行
+    "prefer-const": 2,                        // 2.1（对应JavaScript语言规范2.1，以下简写）
+    "no-const-assign": 2,                     // 2.1
+    "no-var": 2,                              // 2.2
+    "object-shorthand": 1,                    // 3.2               
+    "quote-props": 2,                         // 3.5
+    "no-prototype-builtins: 1,                // 3.6
+    "array-callback-return": 2,               // 4.4
+    "prefer-destructuring": ,                 // 5.1
+    "quotes": [2, "single",                   // 6.1
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true,
+      }
+    ],
+    "prefer-template template-curly-spacing": 1,    // 6.3
+    "wrap-iife": [1, "any"],                        // 7.2
+    "prefer-rest-params": 1,                        // 7.5
+    "no-param-reassign": [2, {"props": false}],     // 7.10
+    "prefer-spread": 1,                             // 7.12
+    "prefer-arrow-callback": 2,                     // 8.1
+    "arrow-spacing": 2,                             // 8.1
+    "arrow-parens": [2, "as-needed"],               // 8.2
+    "arrow-body-style": [2, "as-needed"],           // 8.2
+    "no-useless-constructor": 1,                    // 9.3
+    "import/no-mutable-exports": 1,                 // 10.3
+    "import/first": 2,                              // 10.5
+    "dot-notaion": 2,                               // 12.1
+    "no-multi-assign": 2,                           // 13.5
+    "no-unused-vars": 1,                            // 13.8
+    "eqeqeq": [2, 'always', {"null": "ignore"}],    // 15.1
+    "no-case-declarations": 1,                      // 15.3
+    "no-unneeded-ternary": 1,                       // 15.4
+    "nonblock-statement-body-position": 1,          // 16.1
+    "brace-style": 1,                               // 16.2
+    "no-else-return": 1,                            // 16.3
+    "indent": [2, 2, { "SwitchCase": 1 }],          // 17.1
+    "space-before-blocks": [1],                     // 17.2
+    "keyword-spacing": 1,                           // 17.3
+    "space-infix-ops": 2,                           // 17.4
+    "padded-blocks": 1,                             // 17.5
+    "space-in-parens": 1,                           // 17.6
+    "array-bracket-spacing": 1,                     // 17.7
+    "object-curly-spacing": 1,                      // 17.8
+    "block-spacing":                                // 17.9
+    "func-call-spacing": 1,                         // 17.12
+    "key-spacing": 1,                               // 17.13
+    "no-trailing-spaces": 1,                        // 17.14
+    "comma-dangle": [1, "always"]                   // 18.2
+    "semi": [2, "always"],                          // 19.1
+    "camelcase": 2,                                 // 强制驼峰法命名
+    "curly": 2,                                     // 必须使用 if(){} 中的{}
+    "brace-style": [2, "1tbs"],                     // 大括号风格
     "no-multi-spaces": 2,
-    "no-var": 2,                               //禁用var
-    "one-var": 0,
-    "no-unused-vars": 1,                              //连续声明
     "no-console": 1,
-    "no-debugger": 2,                          //禁止使用debugger
+    "no-debugger": 2,                               //禁止使用debugger
     "class-methods-use-this": 0,
     "no-unused-expressions": [1, { "allowShortCircuit": true }],
-    "react/prefer-es6-class": [1, "always"],    //使用 class extends React.Component
+    "react/prefer-es6-class": [1, "always"],      //使用 class extends React.Component
     "react/jsx-pascal-case": 2,                   //骆驼式命名
     "react/jsx-closing-bracket-location": 2,      //JSX语法缩进/格式
     "react/jsx-curly-spacing": 2,                 //JSX {} 引用括号里两边加空格
