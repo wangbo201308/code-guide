@@ -1,0 +1,14 @@
+{	
+	"tabWidth": 2,
+	"Semicolons": true,							// 对应规则的19.1，以下同理（默认为true）
+  "singleQuote": true,						// 6.1
+  "trailingComma": "es5",					// 18.2
+  "bracketSpacing": true,					// 17.8（默认为true）
+  "endOfLine": 'lf',              // 保持linux下的换行符
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    }
+  ]
+}
