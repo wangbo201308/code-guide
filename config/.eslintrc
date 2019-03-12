@@ -29,7 +29,7 @@
     "no-const-assign": 2,                     // 2.1
     "no-var": 2,                              // 2.2
     "object-shorthand": 1,                    // 3.2               
-    "quote-props": 2,                         // 3.5
+    "quote-props": [2, "as-needed"],          // 3.5
     "no-prototype-builtins": 1,               // 3.6
     "array-callback-return": 2,               // 4.4
     "prefer-destructuring": 1,                // 5.1
