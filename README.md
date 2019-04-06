@@ -38,7 +38,7 @@
 ### 代码实时检测（以VsCode为例）
    1. 安装依赖 `ESLint` 及对应的 `plugin`（若已安装可忽略），安装依赖 `stylelint` 及对应的 `plugin`（若已安装可忽略）。
    ```` javascript
-    yarn add ESLint eslint-plugin-reac --dev
+    yarn add ESLint eslint-plugin-react --dev
     yarn add stylelint stylelint-config-standard  stylelint-config-prettier --dev
    ````
    1. 安装VsCode插件 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 和 [stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)。
@@ -56,7 +56,7 @@
 
 ` Git Hooks ` 都存储在Git目录下的hooks子目录，在大多数项目中是 ` .git/hooks `目录。当使用 `git init` 初始化一个项目时，Git会在该目录下创建一系列的示例钩子。
 ##### Husky
-`Husky` 实际时一个为Git增加钩子的工具，借助它可以实现自动在 `.git/hooks` 下增加对应的钩子。
+`Husky` 实际是一个为Git增加钩子的工具，借助它可以实现自动在 `.git/hooks` 下增加对应的钩子。
 ##### lint-staged
 `lint-staged` 主要用于对进入Git暂存区并且将要提交的文件进行操作，从而可以避免对于整个项目中的所有文件进行操作。
 ##### prettier
