@@ -33,5 +33,19 @@
 ##  路线图
 ![路线图](https://github.com/wangbo201308/code-guide/blob/master/resource/roadmap.png)
 
+## 如何使用
+代码规范在项目中的应用主要包括代码实时检测和代码提交前的代码检查。
+### 代码实时检测（以VsCode为例）
+   1. 安装依赖 `ESLint` 及对应的 `plugin`（若已安装可忽略）。`yarn add ESLint eslint-plugin-reac --dev`。 安装依赖 `stylelint` 及对应的 `plugin`（若已安装可忽略）。`yarn add stylelint stylelint-config-standard  stylelint-config-prettier --dev`
+   2. 安装VsCode插件 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 和 [stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)。
+   3. 复制最新的 `.elintrc ` 文件和 ` .stylelintrc.json` 文件至项目根目录下（若已有可忽略）。
+   4. 为防止VsCode内置的linter和 `stylelint` 对同一错误重复报错，需在 ` Settings ` 中将内置linter禁用。
+   ```` javascript
+    "css.validate": false,
+    "less.validate": false,
+    "scss.validate": false
+   ````
 
+### 代码自动检查
+    #### 原理
 
