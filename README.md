@@ -53,8 +53,19 @@
 #### 原理
 ##### Git Hooks
 和许多其他的版本控制系统一样， 当某些重要的动作发生时 `Git` 也能触发对应的定制化的脚本，这种方式被叫做 [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)。 [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) 主要有两类：客户端钩子和服务端钩子。前者主要由 `commit` 和 `merge` 等操作触发，后者主要由 `pre-receive`等操作触发，且主要用于CI流程的处理。`pre-commit` 钩子主要用于提交前的代码格式检查和单元测试。
+
+` Git Hooks ` 都存储在Git目录下的hooks子目录，在大多数项目中是 ` .git/hooks `目录。当使用 `git init` 初始化一个项目时，Git会在该目录下创建一系列的示例钩子。
 ##### Husky
-
-
-
+`Husky` 实际时一个为Git增加钩子的工具，借助它可以实现自动在 `.git/hooks` 下增加对应的钩子。
+##### lint-staged
+`lint-staged` 主要用于对进入Git暂存区并且将要提交的文件进行操作，从而可以避免对于整个项目中的所有文件进行操作。
+##### prettier
+`prettier` 主要用于格式化代码。
+#### 实施
+1. 安装 `husky` `lint-staged` `prettier`等依赖。
+   ```
+   yarn add husky lint-staged prettier --dev
+   ```
+2. 复制最新的 `.prettierrc` 文件至项目根目录下。
+3. 在 `package.json` 文件中编写对应的脚本。
 
