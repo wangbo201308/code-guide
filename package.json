@@ -14,7 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "precommit": "react-scripts test",
     "eject": "react-scripts eject",
     "lint-staged": "lint-staged",
     "lint-staged:js": "eslint --ext .js",

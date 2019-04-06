@@ -36,16 +36,25 @@
 ## 如何使用
 代码规范在项目中的应用主要包括代码实时检测和代码提交前的代码检查。
 ### 代码实时检测（以VsCode为例）
-   1. 安装依赖 `ESLint` 及对应的 `plugin`（若已安装可忽略）。`yarn add ESLint eslint-plugin-reac --dev`。 安装依赖 `stylelint` 及对应的 `plugin`（若已安装可忽略）。`yarn add stylelint stylelint-config-standard  stylelint-config-prettier --dev`
-   2. 安装VsCode插件 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 和 [stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)。
-   3. 复制最新的 `.elintrc ` 文件和 ` .stylelintrc.json` 文件至项目根目录下（若已有可忽略）。
-   4. 为防止VsCode内置的linter和 `stylelint` 对同一错误重复报错，需在 ` Settings ` 中将内置linter禁用。
+   1. 安装依赖 `ESLint` 及对应的 `plugin`（若已安装可忽略），安装依赖 `stylelint` 及对应的 `plugin`（若已安装可忽略）。
+   ```` javascript
+    yarn add ESLint eslint-plugin-reac --dev
+    yarn add stylelint stylelint-config-standard  stylelint-config-prettier --dev
+   ````
+   1. 安装VsCode插件 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 和 [stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)。
+   2. 复制最新的 `.elintrc ` 文件和 ` .stylelintrc.json` 文件至项目根目录下（若已有可忽略）。
+   3. 为防止VsCode内置的 `linter` 和 `stylelint` 对同一错误重复报错，需在VsCode的 ` Settings ` 中将内置 `linter` 禁用。
    ```` javascript
     "css.validate": false,
     "less.validate": false,
     "scss.validate": false
    ````
+### 代码检查
+#### 原理
+##### Git Hooks
+和许多其他的版本控制系统一样， 当某些重要的动作发生时 `Git` 也能触发对应的定制化的脚本，这种方式被叫做 [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks)。 [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) 主要有两类：客户端钩子和服务端钩子。前者主要由 `commit` 和 `merge` 等操作触发，后者主要由 `pre-receive`等操作触发，且主要用于CI流程的处理。`pre-commit` 钩子主要用于提交前的代码格式检查和单元测试。
+##### Husky
 
-### 代码自动检查
-    #### 原理
+
+
 
