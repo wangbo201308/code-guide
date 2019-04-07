@@ -31,7 +31,7 @@
 统一团队的 JS 语法风格和书写习惯，减少程序出错的概率，其中也包含了 ES6 的语法规范和最佳实践。
 
 ##  路线图
-![路线图](https://github.com/wangbo201308/code-guide/blob/master/resource/roadmap.png)
+![路线图](https://github.com/wangbo201308/code-guide/blob/master/resource/roadmap(V2.0).PNG)
 
 ## 如何使用
 代码规范在项目中的应用主要包括代码实时检测和代码提交前的代码检查。
@@ -49,6 +49,7 @@
     "less.validate": false,
     "scss.validate": false
    ````
+
 ### 代码检查
 #### 原理
 ##### Git Hooks
