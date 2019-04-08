@@ -17,8 +17,8 @@
     "precommit": "react-scripts test",
     "eject": "react-scripts eject",
     "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .js",
-    "lint-staged:style": "stylelint \"src/**/*.css\" --syntax scss"
+    "lint-staged:js": "eslint --fix --ext .js,.jsx",
+    "lint-staged:style": "stylelint --fix .less --syntax less",
   },
   "husky": {
     "hooks": {
@@ -26,12 +26,12 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,less}": [
+    "**.{js, jsx, json, less}": [
       "prettier --write",
       "git add"
     ],
-    "*.{js,jsx}": "npm run lint-staged:js",
-    "*.{css}": "npm run lint-staged:style"
+    "**.{js, jsx}": "npm run lint-staged:js",
+    "**.less": "npm run lint-staged:style"
   },
   "browserslist": [
     ">0.2%",
