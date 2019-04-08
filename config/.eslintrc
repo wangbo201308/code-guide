@@ -72,7 +72,7 @@
     "comma-dangle": [1, "always"],                  // 18.2
     "semi": [2, "always"],                          // 19.1
     "camelcase": 2,                                 // 驼峰式命名
-    "curly": ["error", "multi-or-nest", "consistent"],      // 必须使用 if(){} 中的{}
+    "curly": ["error", "all"],                      // 必须使用 if(){} 中的{}
     "no-multi-spaces": 1,                           // 禁止多余空格
     "no-console": 2,                                // 禁止console
     "no-debugger": 2,                               // 禁止使用debugger
