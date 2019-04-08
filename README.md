@@ -36,14 +36,18 @@
 ## 如何使用
 代码规范在项目中的应用主要包括代码实时检测和代码提交前的代码检查。
 ### 代码实时检测（以VsCode为例）
-   1. 安装依赖 `ESLint` 及对应的 `plugin`（若已安装可忽略），安装依赖 `stylelint` 及对应的 `plugin`（若已安装可忽略）。
-   ```` javascript
+1. 安装依赖 `ESLint` 及对应的 `plugin`（若已安装可忽略），安装依赖 `stylelint` 及对应的 `plugin`（若已安装可忽略）。
+
+```` javascript
     yarn add ESLint eslint-plugin-react --dev
     yarn add stylelint stylelint-config-standard  stylelint-config-prettier --dev
-   ````
-   1. 安装VsCode插件 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 和 [stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)。
-   2. 复制最新的 `.elintrc ` 文件和 ` .stylelintrc.json` 文件至项目根目录下（若已有可忽略）。
-   3. 为防止VsCode内置的 `linter` 和 `stylelint` 对同一错误重复报错，需在VsCode的 ` Settings ` 中将内置 `linter` 禁用。
+````
+2. 安装VsCode插件 [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) 和 [stylelint](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)。
+
+3. 复制最新的 `.elintrc ` 文件和 ` .stylelintrc.json` 文件至项目根目录下（若已有可忽略）。
+
+4. 为防止VsCode内置的 `linter` 和 `stylelint` 对同一错误重复报错，需在VsCode的 ` Settings ` 中将内置 `linter` 禁用。
+
    ```` javascript
     "css.validate": false,
     "less.validate": false,
@@ -62,11 +66,19 @@
 `lint-staged` 主要用于对进入Git暂存区并且将要提交的文件进行操作，从而可以避免对于整个项目中的所有文件进行操作。
 ##### prettier
 `prettier` 主要用于格式化代码。
+
+注意：关于换行方式 `LF` 和 `CRLF`  ，前者主要用于linux和macOS系统，后者主要用于Windows系统，二者的区别详见[维基百科](<https://en.wikipedia.org/wiki/Newline>)。在多人协作的项目中，在git仓库中很有可能出现两种换行方式同时存在。而且Windows系统也很有可能会将已提交的文件的换行方式从 `LF` 转换为 `CRLF` ，例如：
+![Convert LF to CRLF](https://github.com/wangbo201308/code-guide/blob/master/resource/LF%26CRLF.png)
+
+而这会造成很多不必要的 `git diff` 。所以，Windows用户需要禁用自动将 `LF` 转换为 `CRLF` 的设置，具体设置为 `git config --global core.autocrlf false` 。 
+
 #### 实施
 1. 安装 `husky` `lint-staged` `prettier`等依赖。
    ```
    yarn add husky lint-staged prettier --dev
    ```
+
 2. 复制最新的 `.prettierrc` 文件至项目根目录下。
+
 3. 在 `package.json` 文件中编写对应的脚本。
 
